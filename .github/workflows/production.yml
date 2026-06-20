@@ -1,14 +1,23 @@
 name: CS Ticket Draft — Production
 
 on:
+  repository_dispatch:
+    types: [zendesk-ticket]   # Zendesk gọi khi có ticket mới hoặc khách reply
+  workflow_dispatch:           # chạy tay khi cần
   schedule:
-    - cron: "*/15 * * * *"   # mỗi 15 phút
-  workflow_dispatch:           # trigger thủ công (để test / chạy lại)
+    - cron: "0 * * * *"       # fallback: quét lại mỗi 1 tiếng (bắt ticket bị bỏ sót)
+
+# Chỉ 1 sweep chạy tại 1 thời điểm.
+# Nếu nhiều webhook đến cùng lúc → cái sau xếp hàng (không bị hủy).
+# Khi cái trước xong, cái sau sweep lại → bắt hết ticket còn lại.
+concurrency:
+  group: cs-draft
+  cancel-in-progress: false
 
 jobs:
   draft:
     runs-on: ubuntu-latest
-    timeout-minutes: 20        # safety: kill nếu treo
+    timeout-minutes: 30
 
     steps:
       - name: Checkout

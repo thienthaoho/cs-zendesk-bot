@@ -75,6 +75,7 @@ jobs:
         run: |
           claude -p "quét ticket, chỉ xử lý ticket tạo hoặc update từ ${SWEEP_SINCE}" \
             --mcp-config mcp.json \
+            --skills-dir .claude/skills \
             --allowedTools "Bash,mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__list_views,mcp__zendesk__add_ticket_comment,mcp__zendesk__update_ticket,mcp__shopify__get-orders,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
             --output-format text \
             --permission-mode dontAsk

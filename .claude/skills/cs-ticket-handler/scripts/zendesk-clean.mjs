@@ -11,7 +11,7 @@
  *   node zendesk-clean.mjs <ticket_id> --json     # output JSON thay vì text
  *   node zendesk-clean.mjs <ticket_id> --raw      # in cả body gốc (debug)
  *
- * Creds tự đọc từ C:/Users/Admin/.claude.json (ZENDESK_SUBDOMAIN/EMAIL/API_TOKEN).
+ * Creds: ưu tiên ENV (ZENDESK_SUBDOMAIN/EMAIL/API_TOKEN) cho CI/GitHub; local fallback ~/.claude.json.
  * Guardrail: chỉ lấy TEXT. KHÔNG tải attachment/ảnh. Link bị rút gọn, KHÔNG fetch.
  */
 import fs from 'fs';
@@ -31,10 +31,19 @@ function findZendeskCreds(obj) {
   return null;
 }
 function loadCreds() {
+  // CI / GitHub Actions: creds từ biến môi trường (workflow set sẵn qua secrets)
+  if (process.env.ZENDESK_API_TOKEN && process.env.ZENDESK_SUBDOMAIN) {
+    return {
+      subdomain: process.env.ZENDESK_SUBDOMAIN,
+      email: process.env.ZENDESK_EMAIL,
+      token: process.env.ZENDESK_API_TOKEN,
+    };
+  }
+  // Local: đọc từ ~/.claude.json
   const p = path.join(os.homedir(), '.claude.json');
   const j = JSON.parse(fs.readFileSync(p, 'utf8'));
   const c = findZendeskCreds(j);
-  if (!c) throw new Error('Không tìm thấy ZENDESK creds trong .claude.json');
+  if (!c) throw new Error('Không tìm thấy ZENDESK creds trong ENV hoặc ~/.claude.json');
   return { subdomain: c.ZENDESK_SUBDOMAIN, email: c.ZENDESK_EMAIL, token: c.ZENDESK_API_TOKEN };
 }
 

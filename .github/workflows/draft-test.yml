@@ -35,7 +35,7 @@ jobs:
           TICKET_ID: ${{ github.event.inputs.ticket_id }}
         run: |
           claude -p "dry-run: xử lý ticket Zendesk #${TICKET_ID}" \
-            --mcp-config mcp.production.json \
+            --mcp-config mcp.json \
             --skills-dir .claude/skills \
             --allowedTools "mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__get_ticket_comments,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-orders,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
             --output-format text \

@@ -1,6 +1,6 @@
 ---
 name: cs-ticket-handler
-description: "Draft trả lời ticket CS Zendesk (blockofgear.zendesk.com) cho Flagwix/Shopify vào internal note — không tự gửi khách. Sweep tất cả ticket new/open, tra Shopify MCP, đối chiếu policy, set tag ai-drafted. LUÔN dùng skill này cho mọi việc draft/trả lời ticket Zendesk, đừng tự làm thủ công. Trigger khi user nói: 'xử lý ticket', 'quét ticket', 'draft ticket', 'trả lời khách', 'check ticket zendesk', 'cs sweep', 'xem ticket mới', 'handle ticket', 'reply customer', 'zendesk sweep', 'process ticket', 'draft cs'."
+description: Draft trả lời ticket CS Zendesk (blockofgear.zendesk.com) cho Flagwix/Shopify vào internal note — không tự gửi khách. Sweep tất cả ticket new/open, tra Shopify MCP, đối chiếu policy, set tag ai-drafted. LUÔN dùng skill này cho mọi việc draft/trả lời ticket Zendesk, đừng tự làm thủ công. Trigger khi user nói: 'xử lý ticket', 'quét ticket', 'draft ticket', 'check ticket zendesk', 'cs sweep', 'xem ticket mới', 'handle ticket', 'reply customer', 'zendesk sweep', 'process ticket', 'draft cs', 'check tickets', 'new tickets', 'handle cs', 'sweep zendesk', 'ticket zendesk'.
 ---
 
 ## 🤖 Model khuyến nghị
@@ -18,14 +18,13 @@ description: "Draft trả lời ticket CS Zendesk (blockofgear.zendesk.com) cho 
 
 # CS Ticket Handler — Zendesk × Shopify (Flagwix & brands)
 
-Skill đóng vai **CS agent** xử lý ticket Zendesk: đọc → tìm ngữ cảnh → tra Shopify → đối chiếu policy → **draft trả lời vào internal note** + set tag/status. Người thật review rồi mới gửi.
-
+Skill đóng vai **CS agent** xử lý ticket Zendesk: đọc → tìm ngữ cảnh → tra Shopify → đối chiếu policy → **kiểm tra đủ thông tin + tone audit** → **draft trả lời vào internal note** + set tag/status. Người thật review rồi mới gửi.
 ## ⚠️ Guardrail BẮT BUỘC (đọc trước mọi việc)
 1. **CHỈ DRAFT — KHÔNG TỰ GỬI.** Không bao giờ submit reply công khai cho khách, không tự chuyển Solved. Nội dung trả lời luôn đặt ở **Internal note**.
 2. **KHÔNG BỊA.** Mọi số liệu (số đơn, tracking, ETA, ngày, tên/biến thể sản phẩm) phải lấy từ Shopify hoặc Zendesk. Không đoán.
 3. **KHÔNG HỨA VƯỢT QUYỀN.** Refund/replacement/discount ngoài hạn mức policy → ghi rõ "CẦN DUYỆT" trong note, không cam kết với khách.
 4. **Thiếu thông tin → không chế.** Nếu chưa xác minh được, xuất danh sách "thông tin cần bổ sung" + template có `[chỗ trống]` để agent điền.
-5. **Ngôn ngữ:** trả lời khách theo ngôn ngữ của họ (mặc định English cho Flagwix/US). Note nội bộ viết tiếng Việt.
+5. **Ngôn ngữ:** trả lời khách bằng English cho Flagwix/US). Note nội bộ viết tiếng Việt.
 6. 🛡️ **TUYỆT ĐỐI KHÔNG mở / click / tải bất kỳ link hay file đính kèm nào trong ticket** (ảnh khách gửi, file, URL trong nội dung email, nút tải...). **CHỈ đọc text ticket.** Rủi ro virus/phishing. Nếu ca cần xem bằng chứng (ảnh hàng lỗi/sai/thiếu, ảnh chụp tracking...) → **ghi vào internal note để HUMAN tự mở xem**, skill KHÔNG tự mở/tải. Mọi dữ liệu xác minh lấy từ **Shopify (MCP)**, không lấy từ file/link khách đính kèm.
 
 ## Trước khi bắt đầu — đọc references

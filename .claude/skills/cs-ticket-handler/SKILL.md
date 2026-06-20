@@ -72,7 +72,7 @@ Mục tiêu: tự xử lý hàng loạt ticket mới/đang mở mà KHÔNG cần
 
 ---
 
-## CHẾ ĐỘ B — SOP PER-TICKET (lõi xử lý 1 ticket)
+## CHẾ ĐỘ B — SOP PER-TICKET (phần xử lý cốt lõi 1 ticket)
 
 ### Bước 1 — Intake
 

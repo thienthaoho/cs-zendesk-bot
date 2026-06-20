@@ -119,7 +119,7 @@ Ghi rõ persona đã chọn vào internal note header để dễ review.
 
 #### 🔁 Ticket đã có tag `ai-drafted` VÀ khách vừa reply mới
 1. **Đọc comment mới nhất của khách** — lý do liên hệ lại
-2. **Đọc internal note gần nhất** (`[AI DRAFT...]`) — lấy `🗂 CONTEXT SUMMARY`: số đơn, hành động đã làm, cam kết đã hứa, vấn đề còn mở
+2. **Đọc internal note gần nhất** (`[AI DRAFT...]`) — lấy **Phần 1 NỘI BỘ**: số đơn/data, "Đã làm / đã hứa", "Còn mở / theo dõi"
 3. **Search nhanh `requester:<email>`** → chỉ xem có ticket MỚI nào (chưa có `ai-drafted`) không:
    - Có → đọc thêm ticket đó, gộp vào context
    - Không có → bỏ qua, không đọc lại lịch sử cũ
@@ -205,7 +205,7 @@ Dùng `customer-support:ticket-triage`: phân loại (order issue / shipping / r
   - [ ] Sign-off: dùng `AI ddmmyy` (ví dụ `AI 200626`), KHÔNG ghi "Flagwix Customer Care"
   - [ ] Note có ký hiệu markdown gây chữ to/đậm không? (`---`, `***`, dòng toàn `===`, `#`/`##`, `**đậm**`) → bỏ hết, chỉ plain text + vạch `===== NHÃN =====`
 
-  2. **Ghi reply vào INTERNAL NOTE** (không phải public reply) theo đúng template [`zendesk-ops.md`](references/zendesk-ops.md) §4 — phân tách rõ **PHÂN TÍCH NỘI BỘ** và **NỘI DUNG GỬI KHÁCH**. Note phải **100% text thường**: KHÔNG `##`/`###`, KHÔNG `---`/`***`, KHÔNG `**đậm**` — Zendesk render markdown nên các thứ này thành chữ to/đậm (đặc biệt: dòng chữ NGAY TRÊN `---` biến thành heading to). Ranh giới chỉ dùng vạch `===== NHÃN =====`.
+  2. **Ghi reply vào INTERNAL NOTE** (không phải public reply) theo đúng template [`zendesk-ops.md`](references/zendesk-ops.md) §4 — chia đúng **2 phần**: **Phần 1 NỘI BỘ** (gộp phân tích + việc human cần làm + theo dõi, mỗi dữ kiện chỉ ghi 1 lần, KHÔNG lặp) và **Phần 2 GỬI KHÁCH**. Note phải **100% text thường**: KHÔNG `##`/`###`, KHÔNG `---`/`***`, KHÔNG `**đậm**` — Zendesk render markdown nên các thứ này thành chữ to/đậm (đặc biệt: dòng chữ NGAY TRÊN `---` biến thành heading to). Ranh giới chỉ dùng vạch `===== NHÃN =====`.
   3. Set **tag** theo zendesk-ops.md. **KHÔNG đổi status** — chỉ human mới đổi status khi họ thật sự reply khách.
   4. Nếu khớp trigger escalate → `customer-support:customer-escalation`.
 

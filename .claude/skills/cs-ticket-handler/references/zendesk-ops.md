@@ -56,25 +56,20 @@ node ".claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id> --
 ```
 [AI DRAFT - internal note, KHÔNG gửi khách]
 
-===== PHÂN TÍCH NỘI BỘ (không copy cho khách) =====
-Loại: <loại> | Ưu tiên: <P?> | Brand: <brand>
-Đơn: #FLW... | Fulfillment: ... | Tracking: ... | ETA/Delivered: ...
-Policy: <trích cs-rules>
-AI Confidence: High / Medium / Low. Lý do nếu Medium/Low: <intent không rõ / không tìm thấy order / policy edge case>
+===== PHẦN 1 - NỘI BỘ (không copy cho khách) =====
+Phân loại: <loại> | Ưu tiên: <P?> | Brand: <brand> | Persona: <persona>
+Đơn: #FLW... | Đặt: <ngày> | Fulfillment: <status> | Tracking: <number/url hoặc "chưa có"> | ETA/Delivered: <...>
+Sản phẩm: <tên + variant>
+Policy áp dụng: <trích cs-rules>
+Confidence: High / Medium / Low. Lý do nếu không High: <vd thiếu tracking thật / intent không rõ / policy edge case>
+Việc human cần làm trước khi gửi: <thông tin còn thiếu + lấy ở đâu; hoặc "không, gửi được luôn">
+Đã làm / đã hứa với khách: <hành động + cam kết nêu trong draft; hoặc "chưa hứa gì">
+Còn mở / theo dõi: <vấn đề chưa xong + mốc follow-up; hoặc "không">
 
-===== NỘI DUNG GỬI KHÁCH (copy nguyên đoạn dưới đây xuống ô Public reply) =====
+===== PHẦN 2 - GỬI KHÁCH (copy nguyên đoạn dưới đây xuống ô Public reply) =====
 <nội dung trả lời khách, đúng tone, xem voice-persona.md>
 <closing word>
 AI ddmmyy
-
-===== CẦN BỔ SUNG - nội bộ (nếu có) =====
-<thông tin còn thiếu + lấy ở đâu>
-
-===== CONTEXT SUMMARY - nội bộ, KHÔNG xóa (AI đọc khi khách reply lại) =====
-- Đã làm: <hành động: refund/resend/info/holding reply>
-- Còn mở: <vấn đề chưa xong / đang chờ gì>
-- Data xác minh: <số đơn, tracking, fulfillment, sản phẩm>
-- Đã hứa: <cam kết nếu có, hoặc "không có">
 ```
 > ‼️ Bắt buộc `public=false`. Một public comment sẽ gửi mail thẳng cho khách — vi phạm guardrail.
 > ‼️ **Note phải 100% TEXT THƯỜNG.** Zendesk render markdown → các ký hiệu sau làm chữ phình to/đậm như tiêu đề, TUYỆT ĐỐI KHÔNG dùng trong note:

@@ -228,7 +228,9 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
   - [ ] Có emoji không? → xóa
   - [ ] Có phrase AI nào không? ("rest assured", "Great news!", "so glad to hear it", "I completely understand your frustration", "please don't hesitate", "rest easy", "I hope this finds you well", "Thank you for writing in", "Great question", "Thank you for letting us know") → rewrite
   - [ ] Còn `[chỗ trống]` hoặc placeholder chưa điền không? → điền data thật hoặc đánh dấu rõ cho human
+  - [ ] Có dòng mở đầu chào tên khách chưa? Bắt buộc: `Hi [FirstName],` hoặc `Hello [FirstName],` — KHÔNG bắt đầu thẳng vào nội dung, KHÔNG dùng "Dear [Name]" (quá formal với Flagwix 35+)
   - [ ] Câu đầu có specific với đúng vấn đề ticket này không (không phải mở đầu generic)? → nếu không, rewrite
+  - [ ] Có closing word trước sign-off chưa? (Warmly / With gratitude / Take care / Hope to see you again soon / ...) — chọn theo persona, KHÔNG bỏ trống
   - [ ] Tone match với persona đã xác định ở Bước 3 chưa? (Grieving Grace: chậm/nhẹ/cảm xúc trước; Dog Mom Debbie: nhanh/friendly; Patriot Pete: tôn trọng/honor)
   - [ ] Sign-off: dùng `AI ddmmyy` (ví dụ `AI 200626`), KHÔNG ghi "Flagwix Customer Care"
   - [ ] Note có ký hiệu markdown gây chữ to/đậm không? (`---`, `***`, dòng toàn `===`, `#`/`##`, `**đậm**`) → bỏ hết, chỉ plain text + vạch `===== NHÃN =====`

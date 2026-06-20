@@ -1,0 +1,62 @@
+name: CS Ticket Sweep — Production
+
+# Chạy tự động 3 lần/ngày (giờ hành chính UTC+7) và có thể trigger tay.
+# Dùng cs-ticket-handler skill đầy đủ: đọc + ghi internal note + set tag.
+# KHÔNG bao giờ tự gửi reply công khai — chỉ internal note, human review.
+on:
+  schedule:
+    # 01:00, 07:00, 13:00 UTC = 08:00, 14:00, 20:00 UTC+7 (thứ 2–6)
+    - cron: "0 1,7,13 * * 1-5"
+
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run (chỉ in ra log, KHÔNG ghi lên Zendesk)"
+        type: boolean
+        default: false
+      since_hours:
+        description: "Chỉ lấy ticket mới trong N giờ gần đây (để trống = tất cả new/open)"
+        required: false
+        default: "4"
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: CS Ticket Sweep
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ZENDESK_SUBDOMAIN: ${{ secrets.ZENDESK_SUBDOMAIN }}
+          ZENDESK_EMAIL: ${{ secrets.ZENDESK_EMAIL }}
+          ZENDESK_API_TOKEN: ${{ secrets.ZENDESK_API_TOKEN }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          SINCE_HOURS: ${{ github.event.inputs.since_hours || '4' }}
+        run: |
+          # Tính timestamp ISO 8601 từ N giờ trước (Linux date)
+          SINCE_TS=$(date -u -d "${SINCE_HOURS} hours ago" +"%Y-%m-%dT%H:%M:%SZ")
+
+          if [ "$DRY_RUN" = "true" ]; then
+            PROMPT="dry-run: quét ticket Zendesk từ ${SINCE_TS}"
+          else
+            PROMPT="quét ticket Zendesk từ ${SINCE_TS}"
+          fi
+
+          claude -p "$PROMPT" \
+            --mcp-config mcp.production.json \
+            --skills-dir .claude/skills \
+            --allowedTools "mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__get_ticket_comments,mcp__zendesk__add_ticket_comment,mcp__zendesk__update_ticket,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-orders,mcp__shopify__get-products,mcp__shopify__get-product-by-id,Bash" \
+            --output-format text \
+            --permission-mode dontAsk

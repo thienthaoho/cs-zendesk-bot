@@ -3,3 +3,10 @@
 .env
 *.token
 *.secret
+
+# Claude Code local state — không thuộc repo
+.claude/projects/
+.claude/sessions/
+.claude/tasks/
+.claude/shell-snapshots/
+.claude/mcp-needs-auth-cache.json

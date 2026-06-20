@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "shopify": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "shopify-mcp"],
+      "env": {
+        "SHOPIFY_ACCESS_TOKEN": "${SHOPIFY_ACCESS_TOKEN}",
+        "MYSHOPIFY_DOMAIN": "flagwix.myshopify.com"
+      }
+    }
+  }
+}

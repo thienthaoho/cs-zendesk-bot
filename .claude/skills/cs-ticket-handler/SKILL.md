@@ -59,6 +59,7 @@ Mục tiêu: tự xử lý hàng loạt ticket mới/đang mở mà KHÔNG cần
    - Query mặc định (không có timestamp): `type:ticket status:new`, `type:ticket status:open`
    - Ưu tiên Brand Flagwix trước, rồi brand khác.
    - Bỏ qua ticket đã có tag `ai-drafted` (đã xử lý) trừ khi có reply mới của khách.
+   - Bỏ qua ticket có requester email là `mailer@shopify.com` (Shopify system notification, không phải khách thật).
 3. **Sắp xếp theo ưu tiên** (P1 → P4 theo ticket-triage / SLA trong cs-rules).
 4. **Với MỖI ticket → chạy SOP per-ticket (Chế độ B).**
 5. **Báo cáo tổng kết** cuối lượt: bảng [Ticket | Brand | Loại | Trạng thái xử lý: Drafted / Cần bổ sung / Escalate | Tag đã set]. Liệt kê riêng các ticket "Cần bổ sung thông tin" để team xử lý tay.

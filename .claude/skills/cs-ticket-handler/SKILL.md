@@ -203,8 +203,9 @@ Dùng `customer-support:ticket-triage`: phân loại (order issue / shipping / r
   - [ ] Câu đầu có specific với đúng vấn đề ticket này không (không phải mở đầu generic)? → nếu không, rewrite
   - [ ] Tone match với persona đã xác định ở Bước 1 chưa? (Grieving Grace: chậm/nhẹ/cảm xúc trước; Dog Mom Debbie: nhanh/friendly; Patriot Pete: tôn trọng/honor)
   - [ ] Sign-off: dùng `AI ddmmyy` (ví dụ `AI 200626`), KHÔNG ghi "Flagwix Customer Care"
+  - [ ] Note có ký hiệu markdown gây chữ to/đậm không? (`---`, `***`, dòng toàn `===`, `#`/`##`, `**đậm**`) → bỏ hết, chỉ plain text + vạch `===== NHÃN =====`
 
-  2. **Ghi reply vào INTERNAL NOTE** (không phải public reply). Viết note bằng plain text thuần — KHÔNG dùng `##`, `###`, `---` vì Zendesk render thành HTML heading/HR gây font size loạn.
+  2. **Ghi reply vào INTERNAL NOTE** (không phải public reply) theo đúng template [`zendesk-ops.md`](references/zendesk-ops.md) §4 — phân tách rõ **PHÂN TÍCH NỘI BỘ** và **NỘI DUNG GỬI KHÁCH**. Note phải **100% text thường**: KHÔNG `##`/`###`, KHÔNG `---`/`***`, KHÔNG `**đậm**` — Zendesk render markdown nên các thứ này thành chữ to/đậm (đặc biệt: dòng chữ NGAY TRÊN `---` biến thành heading to). Ranh giới chỉ dùng vạch `===== NHÃN =====`.
   3. Set **tag** theo zendesk-ops.md. **KHÔNG đổi status** — chỉ human mới đổi status khi họ thật sự reply khách.
   4. Nếu khớp trigger escalate → `customer-support:customer-escalation`.
 

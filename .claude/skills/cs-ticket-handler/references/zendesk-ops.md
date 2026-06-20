@@ -54,24 +54,33 @@ node ".claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id> --
 ## 4. Ghi Internal note (nơi đặt draft trả lời)
 `add_ticket_comment(ticket_id=<id>, public=false, body=<nội dung>)` — cấu trúc body:
 ```
-[AI DRAFT — chưa gửi, cần review]
+[AI DRAFT - internal note, KHÔNG gửi khách]
+
+===== PHÂN TÍCH NỘI BỘ (không copy cho khách) =====
 Loại: <loại> | Ưu tiên: <P?> | Brand: <brand>
 Đơn: #FLW... | Fulfillment: ... | Tracking: ... | ETA/Delivered: ...
-Policy áp dụng: <trích cs-rules>
-🔍 AI Confidence: High / Medium / Low — [lý do nếu Medium/Low, vd: "intent không rõ", "không tìm thấy order", "policy edge case"]
----
-✦ DRAFT REPLY (copy sang public reply để gửi):
-<nội dung trả lời khách, đúng tone — xem voice-persona.md>
----
-⚠ Cần bổ sung (nếu có): <danh sách thông tin còn thiếu + lấy ở đâu>
----
-🗂 CONTEXT SUMMARY (AI đọc nhanh khi khách reply lại — KHÔNG xóa dòng này):
-- Đã làm: <hành động đã thực hiện — refund/resend/info provided/holding reply>
+Policy: <trích cs-rules>
+AI Confidence: High / Medium / Low. Lý do nếu Medium/Low: <intent không rõ / không tìm thấy order / policy edge case>
+
+===== NỘI DUNG GỬI KHÁCH (copy nguyên đoạn dưới đây xuống ô Public reply) =====
+<nội dung trả lời khách, đúng tone, xem voice-persona.md>
+<closing word>
+AI ddmmyy
+
+===== CẦN BỔ SUNG - nội bộ (nếu có) =====
+<thông tin còn thiếu + lấy ở đâu>
+
+===== CONTEXT SUMMARY - nội bộ, KHÔNG xóa (AI đọc khi khách reply lại) =====
+- Đã làm: <hành động: refund/resend/info/holding reply>
 - Còn mở: <vấn đề chưa xong / đang chờ gì>
-- Data xác minh: <số đơn, tracking, fulfillment status, sản phẩm>
-- Đã hứa: <cam kết với khách nếu có, hoặc "không có">
+- Data xác minh: <số đơn, tracking, fulfillment, sản phẩm>
+- Đã hứa: <cam kết nếu có, hoặc "không có">
 ```
 > ‼️ Bắt buộc `public=false`. Một public comment sẽ gửi mail thẳng cho khách — vi phạm guardrail.
+> ‼️ **Note phải 100% TEXT THƯỜNG.** Zendesk render markdown → các ký hiệu sau làm chữ phình to/đậm như tiêu đề, TUYỆT ĐỐI KHÔNG dùng trong note:
+> - `---` hoặc `***` (kể cả khi đứng một mình): **một dòng chữ nằm NGAY TRÊN dòng `---` sẽ biến thành heading H2 chữ to** — đây chính là lỗi hay gặp.
+> - `#`, `##`, `###` đầu dòng; `**đậm**`; dòng chỉ gồm toàn dấu `===`.
+> - Ranh giới giữa các phần: CHỈ dùng vạch dạng `===== NHÃN =====` (có CHỮ ở giữa nên markdown không coi là heading). An toàn 100%.
 
 ## 5. Set tag & ticket fields
 `update_ticket` với mảng tags = **(tags hiện có từ bước 2) + (tag mới)** — luôn gộp, KHÔNG gửi mảng chỉ có tag mới (API ghi đè toàn bộ → mất tag cũ).

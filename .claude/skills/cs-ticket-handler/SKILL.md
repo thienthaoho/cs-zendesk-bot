@@ -179,7 +179,7 @@ KHÔNG yêu cầu verify danh tính thêm nếu khách đã cho cả email cũ +
 **Ca đặc biệt: Ticket chỉ có order number, không có câu hỏi**
 Khi body ticket chỉ là một order number (không có mô tả vấn đề):
 1. **Giả định intent = WISMO** (Where Is My Order) — đây là intent phổ biến nhất với Flagwix 35+.
-2. Query Shopify theo order number (curl REST ở trên) → lấy fulfillment status + tracking.
+2. **Kiểm tra sidebar Shopify trên ticket Zendesk trước:** nếu sidebar đã hiện đủ fulfillment status + tracking → dùng luôn. Nếu không có hoặc thiếu → query Shopify theo order number (curl REST) để lấy fulfillment status + tracking.
 3. Draft **proactive status update**: cho khách biết đơn ở đâu, ETA, tracking. Không hỏi "what can I help you with?" — với tệp 35+ đang lo lắng về đơn hàng, câu đó làm tăng lo lắng thay vì trấn an.
 4. Nếu không tìm được order → draft reply hỏi email đặt hàng để xác minh.
 

@@ -28,7 +28,15 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Cache Claude Code
+        id: cache-claude
+        uses: actions/cache@v4
+        with:
+          path: /usr/local/lib/node_modules/@anthropic-ai
+          key: claude-code-${{ runner.os }}-${{ hashFiles('**/package-lock.json') || 'latest' }}
+
       - name: Install Claude Code
+        if: steps.cache-claude.outputs.cache-hit != 'true'
         run: npm install -g @anthropic-ai/claude-code
 
       - name: Run cs-ticket-handler sweep

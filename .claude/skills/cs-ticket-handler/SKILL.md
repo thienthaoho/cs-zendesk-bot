@@ -172,7 +172,7 @@ Khi khách báo email cũ sai và cung cấp email mới:
    - Ghi internal note: "Tìm thấy account [email cũ] — đề xuất human update email → [email mới] trong Shopify."
    - KHÔNG tự update — để human thực hiện (đây là thay đổi dữ liệu nhạy cảm).
    - Draft reply khách: (a) xác nhận sẽ cập nhật email, (b) THÊM tình trạng đơn hàng gần nhất để khách yên tâm (get order status từ Shopify trước khi draft).
-   - Ví dụ tone: "Got it, Jerrill — I've flagged your account to get your email updated to janikj1806@mediacombb.net. While I have your order pulled up, your [product] shipped on [date] and is on its way to you, tracking [number]."
+   - Ví dụ tone: "Hi [Name], thanks for letting us know. We've passed your email update request to our team — your account will be updated to [new email] shortly. While I have your order open: your [product] shipped on [date] and is on its way to you (tracking: [number]). You're all set on our end."
 3. Nếu KHÔNG tìm thấy → draft reply: xác nhận đã nhận, không tìm thấy account với email cũ, hỏi order number để locate và update.
 KHÔNG yêu cầu verify danh tính thêm nếu khách đã cho cả email cũ + email mới.
 

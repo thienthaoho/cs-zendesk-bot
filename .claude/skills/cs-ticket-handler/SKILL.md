@@ -148,21 +148,22 @@ Sidebar Zendesk đã embed thông tin đơn hàng trực tiếp. Extract từ ti
 - Tracking number
 - Customer name, email
 
-**Quyết định có cần gọi Shopify không:**
-- ✅ Sidebar đã có order# + fulfillment status + tracking → **SKIP Shopify, dùng data từ Zendesk**
-- ⚠️ Gọi Shopify MCP **CHỈ KHI** một trong các điều kiện sau:
-  1. Sidebar không hiển thị order (link Shopify-Zendesk lỗi / ticket không có order liên kết)
-  2. Cần thông tin chi tiết sản phẩm (mô tả, variant, specs) để trả lời câu hỏi về sản phẩm
+**Quyết định có cần query Shopify không:**
+- ✅ Sidebar Shopify trên ticket ĐÃ hiện đủ order# + fulfillment status + tracking → dùng luôn, KHÔNG query Shopify.
+- ⚠️ Query Shopify khi: sidebar không có/thiếu fulfillment/thiếu tracking, **HOẶC chạy headless trên GitHub (không thấy sidebar)**, hoặc cần chi tiết sản phẩm.
 
-**Khi cần gọi Shopify:** `get-customers`/`get-customer-orders` theo email → `get-order-by-id` (order, line items, fulfillment, tracking) | `get-products`/`get-product-by-id` (nếu hỏi về sản phẩm).
+**Lấy order# từ đâu:** ticket body (email xác nhận khách quote thường có `#FLWSP...`) hoặc custom field `order_number`. Có order# rồi thì query thẳng theo order number, KHÔNG cần email.
 
-**Khi cần tìm order theo tên (FLWSPXXXXXX) mà không có email khớp:**
-Dùng Bash + curl gọi Shopify REST API:
+**Query Shopify theo ORDER NUMBER — cách chính lấy fulfillment + TRACKING, chạy được trên GitHub:**
 ```bash
-curl -s "https://flagwix.myshopify.com/admin/api/2026-01/orders.json?name=%23FLWSPXXXXXX&status=any" \
+curl -s "https://flagwix.myshopify.com/admin/api/2026-01/orders.json?name=%23<ORDER>&status=any&fields=name,fulfillment_status,fulfillments,line_items,shipping_address,financial_status,created_at" \
   -H "X-Shopify-Access-Token: $SHOPIFY_ACCESS_TOKEN"
 ```
-Thay `FLWSPXXXXXX` bằng order number thực. Response trả về JSON với customer, line_items, fulfillments (tracking_number, tracking_url), financial_status. Dùng data này để draft WISMO reply.
+Thay `<ORDER>` bằng order number thực (vd `FLWSP332649`; `%23` = `#`). Response cho: `fulfillment_status`, `fulfillments[].tracking_number` + `tracking_url`, `line_items`, `shipping_address`, `financial_status`, `created_at`.
+> ⚠️ **MCP `get-order-by-id` thường KHÔNG trả `tracking_number`** → đừng dựa vào nó để lấy tracking. Cần tracking → dùng curl REST trên (đã verify: order FLWSP332649 → tracking `GFUS01056223631747`). `$SHOPIFY_ACCESS_TOKEN` có sẵn trong env GitHub Actions.
+> Nếu order **chưa fulfilled** → chưa có tracking là bình thường (không phải lỗi); draft theo trạng thái "đang xử lý/chưa ship", đừng để Confidence thấp chỉ vì thiếu tracking của đơn chưa ship.
+
+**Cần chi tiết sản phẩm (mô tả/variant):** MCP `get-products`/`get-product-by-id` — phần này MCP dùng tốt. Tra khách theo email khi cần: `get-customers`/`get-customer-orders`.
 
 **Ca đặc biệt: Email / Address change request**
 Khi khách báo email cũ sai và cung cấp email mới:
@@ -178,7 +179,7 @@ KHÔNG yêu cầu verify danh tính thêm nếu khách đã cho cả email cũ +
 **Ca đặc biệt: Ticket chỉ có order number, không có câu hỏi**
 Khi body ticket chỉ là một order number (không có mô tả vấn đề):
 1. **Giả định intent = WISMO** (Where Is My Order) — đây là intent phổ biến nhất với Flagwix 35+.
-2. Tìm order trong Shopify theo email khách → lấy fulfillment status + tracking.
+2. Query Shopify theo order number (curl REST ở trên) → lấy fulfillment status + tracking.
 3. Draft **proactive status update**: cho khách biết đơn ở đâu, ETA, tracking. Không hỏi "what can I help you with?" — với tệp 35+ đang lo lắng về đơn hàng, câu đó làm tăng lo lắng thay vì trấn an.
 4. Nếu không tìm được order → draft reply hỏi email đặt hàng để xác minh.
 

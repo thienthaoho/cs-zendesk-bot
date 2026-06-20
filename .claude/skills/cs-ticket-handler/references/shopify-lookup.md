@@ -9,7 +9,9 @@ Dùng để tra **đơn hàng** (khách đã mua) và **hiểu sản phẩm** tr
 2. **Lấy đơn của khách:**
    `get-customer-orders` (theo customer id) hoặc `get-orders` query `email:<email>` → danh sách đơn (name `#FLW...`, ngày, financial/fulfillment status).
 3. **Chi tiết 1 đơn:**
-   `get-order-by-id` → line items (sản phẩm + biến thể + personalization), shipping address, **fulfillment** (status, displayStatus, trackingInfo {number, company, url}, estimatedDeliveryAt, inTransitAt, deliveredAt), financial status.
+   `get-order-by-id` → line items (sản phẩm + biến thể + personalization), shipping address, fulfillment status, financial status.
+   > ⚠️ **MCP thường KHÔNG trả `tracking_number`.** Cần tracking → query REST theo order number:
+   > `curl -s "https://flagwix.myshopify.com/admin/api/2026-01/orders.json?name=%23<ORDER>&status=any&fields=name,fulfillment_status,fulfillments,line_items,shipping_address,financial_status,created_at" -H "X-Shopify-Access-Token: $SHOPIFY_ACCESS_TOKEN"` → đọc `fulfillments[].tracking_number` + `tracking_url`. Chạy được trên GitHub (token trong env). (Đã verify: FLWSP332649 → `GFUS01056223631747`.)
 
 ### Thông tin cần lấy cho từng loại ticket
 | Loại ticket | Cần lấy |

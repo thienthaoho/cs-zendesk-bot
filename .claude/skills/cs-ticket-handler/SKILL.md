@@ -208,6 +208,14 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
 - ✅ **ĐỦ** →
   1. Dùng `customer-support:draft-response` viết reply theo **[`voice-persona.md`](references/voice-persona.md)** (người thật, không em dash/emoji, đồng cảm trước, trấn an tiền), **chèn dữ liệu thật** (số đơn, tracking, ngày, link).
 
+  **Ticket positive feedback / delivery confirmed (P4):**
+  Dù không có vấn đề cần giải quyết, reply không được chỉ là 1 dòng generic. Phải connect với ý nghĩa sản phẩm và persona:
+  - Patriot Pete / Anniversary America → gắn với niềm tự hào, dịp lễ đang đến, ý nghĩa 250 năm / cờ Mỹ
+  - Grieving Grace → nhẹ nhàng, acknowledge ý nghĩa tưởng niệm
+  - Gift Giver Gary → hỏi thêm người nhận có thích không (nếu phù hợp), chúc dịp tặng quà
+  - Dog Mom Debbie / Holiday Helen → warm, thân thiện, echo lại sự phấn khích của khách
+  Mục tiêu: khách đọc xong thấy được trân trọng vì mình đã chọn Flagwix, không phải thấy bị "ack and close".
+
   **Quy tắc ngày tháng trong draft — bắt buộc:**
   - **Delivery date:** chỉ ghi ngày giao cụ thể khi tracking có ETA rõ ràng, HOẶC tracking cho thấy đã có lượt giao đến người nhận (out for delivery / attempted delivery / delivered). Mọi trường hợp còn lại (in transit, label created, pre-shipment...) → KHÔNG ghi ngày giao cụ thể, chỉ nói chung "on its way" hoặc ước lượng theo transit time chuẩn.
   - **Ship-out date:** KHÔNG bao giờ ghi ngày ship ra cụ thể trong draft gửi khách (vd "your order shipped on June 15" → bỏ). Thông tin này gây tranh cãi nếu khách đang chờ lâu và không giúp trấn an.
@@ -215,7 +223,7 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
   **Tone audit — bắt buộc trước khi ghi note (tự kiểm từng dòng):**
   - [ ] Có ký tự "—" (em dash) nào không? → thay bằng dấu phẩy hoặc tách câu
   - [ ] Có emoji không? → xóa
-  - [ ] Có phrase AI nào không? ("rest assured", "Great news!", "I completely understand your frustration", "please don't hesitate", "rest easy", "I hope this finds you well", "Thank you for writing in", "Great question") → rewrite
+  - [ ] Có phrase AI nào không? ("rest assured", "Great news!", "so glad to hear it", "I completely understand your frustration", "please don't hesitate", "rest easy", "I hope this finds you well", "Thank you for writing in", "Great question", "Thank you for letting us know") → rewrite
   - [ ] Còn `[chỗ trống]` hoặc placeholder chưa điền không? → điền data thật hoặc đánh dấu rõ cho human
   - [ ] Câu đầu có specific với đúng vấn đề ticket này không (không phải mở đầu generic)? → nếu không, rewrite
   - [ ] Tone match với persona đã xác định ở Bước 3 chưa? (Grieving Grace: chậm/nhẹ/cảm xúc trước; Dog Mom Debbie: nhanh/friendly; Patriot Pete: tôn trọng/honor)

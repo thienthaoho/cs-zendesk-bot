@@ -248,9 +248,10 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
   **Tone audit — bắt buộc trước khi ghi note (tự kiểm từng dòng):**
   - [ ] Có ký tự "—" (em dash) nào không? → thay bằng dấu phẩy hoặc tách câu
   - [ ] Có emoji không? → xóa
-  - [ ] Có phrase AI nào không? ("rest assured", "Great news!", "so glad to hear it", "I completely understand your frustration", "please don't hesitate", "rest easy", "I hope this finds you well", "Thank you for writing in", "Great question", "Thank you for letting us know", "thanks for reaching out", "I wanted to reach out") → rewrite
+  - [ ] Có phrase AI nào không? ("rest assured", "Great news!", "so glad to hear it", "I completely understand your frustration", "please don't hesitate", "rest easy", "I hope this finds you well", "Thank you for writing in", "Great question", "I wanted to reach out") → rewrite
   - [ ] Còn `[chỗ trống]` hoặc placeholder chưa điền không? → điền data thật hoặc đánh dấu rõ cho human
-  - [ ] Có dòng mở đầu chào tên khách chưa? Bắt buộc: `Hi [FirstName],` hoặc `Hello [FirstName],` đứng **riêng một dòng**, xuống dòng rồi mới vào nội dung — KHÔNG gộp greeting với câu đầu (vd ~~"Hi Gail, thanks for reaching out"~~), KHÔNG dùng "Dear [Name]" (quá formal)
+  - [ ] Có dòng mở đầu chào tên khách chưa? Bắt buộc: `Hi [FirstName],` hoặc `Hello [FirstName],` đứng **riêng một dòng** — KHÔNG gộp greeting với bất kỳ câu nào phía sau, KHÔNG dùng "Dear [Name]" (quá formal)
+  - [ ] Sau greeting có 1 dòng acknowledge/cảm ơn trước khi vào nội dung chính chưa? Bắt buộc — ví dụ: "Thanks for reaching out." / "Thanks for your patience." / "Thanks for letting us know." — chọn theo ngữ cảnh ticket, có thể thêm 1 câu chia sẻ nhỏ liên quan (vd "I can see your order has been in transit for a few days now.")
   - [ ] Câu đầu có specific với đúng vấn đề ticket này không (không phải mở đầu generic)? → nếu không, rewrite
   - [ ] Có closing word trước sign-off chưa? (Warmly / With gratitude / Take care / Hope to see you again soon / ...) — chọn theo persona, KHÔNG bỏ trống
   - [ ] Tone match với persona đã xác định ở Bước 3 chưa? (Grieving Grace: chậm/nhẹ/cảm xúc trước; Dog Mom Debbie: nhanh/friendly; Patriot Pete: tôn trọng/honor)

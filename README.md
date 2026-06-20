@@ -1,73 +1,77 @@
-# CS Zendesk Bot — Bài test nhỏ (DRY-RUN)
+# CS Zendesk Bot
 
-Mục tiêu: chứng minh đường **GitHub Actions + Claude subscription (OAuth) + MCP Zendesk** chạy được,
-bằng cách draft thử **1-2 ticket** mà **KHÔNG ghi gì lên Zendesk** (chỉ cho phép tool đọc).
+Tự động draft trả lời ticket Customer Support trên Zendesk (blockofgear.zendesk.com) cho store Flagwix.
 
-- ✅ Chạy trên cloud → máy tắt vẫn chạy
-- ✅ Dùng subscription (OAuth token) → KHÔNG tốn Anthropic API
-- ✅ Repo **PRIVATE vẫn OK** cho bài test (chỉ chạy tay vài lần, không đụng giới hạn 2000 phút)
-- ✅ DRY-RUN: chỉ cho phép `get_ticket` / `search` / `list_tickets` → vật lý không thể ghi
+**Cách hoạt động:** Khi khách gửi ticket mới hoặc reply → Zendesk webhook → GitHub Actions → Claude Code chạy skill `cs-ticket-handler` → ghi draft vào **internal note** trên ticket → CS team đọc, chỉnh nếu cần, rồi gửi.
+
+- Chạy trên cloud — máy tắt vẫn chạy
+- Dùng Claude subscription (OAuth) — không tốn Anthropic API key
+- KHÔNG tự gửi mail cho khách — chỉ ghi internal note để CS review
 
 ---
 
-## CÁC BƯỚC (làm 1 lần)
+## Cấu trúc repo
 
-### Bước 1 — Tạo OAuth token từ subscription
-Mở terminal (máy đã đăng nhập Claude Code), chạy:
 ```
-claude setup-token
+.claude/skills/cs-ticket-handler/   # skill logic (policy, tone, templates)
+.github/workflows/
+  production.yml                    # workflow chính (webhook + cron fallback)
+  draft-test.yml                    # dry-run test thủ công (không ghi Zendesk)
+mcp.json                            # MCP config: Zendesk + Shopify
+mcp.zendesk.json                    # MCP config cũ (chỉ Zendesk, dùng cho dry-run test)
 ```
-→ Mở trình duyệt đăng nhập → trả về một token (dạng dài, hạn 1 năm). **Copy lại.**
-Nếu lệnh báo không hỗ trợ / bị admin chặn → báo lại, ta chuyển hướng.
 
-### Bước 2 — Tạo GitHub repo (PRIVATE được)
-Tạo 1 repo mới (vd `cs-zendesk-bot`), để **Private** cho bài test.
+---
 
-### Bước 3 — Push thư mục này lên repo
-Từ trong thư mục `cs-zendesk-bot`:
-```
-git init
-git add .
-git commit -m "CS zendesk draft test (dry-run)"
-git branch -M main
-git remote add origin <URL repo của bạn>
-git push -u origin main
-```
-> `.gitignore` đã chặn các file secret. Thư mục này KHÔNG chứa token nào.
+## GitHub Secrets cần có
 
-### Bước 4 — Nạp Secrets vào GitHub
-Repo → **Settings → Secrets and variables → Actions → New repository secret**.
-Tạo đúng 4 secret sau:
+Repo → **Settings → Secrets and variables → Actions**
 
-| Tên secret | Giá trị |
+| Secret | Giá trị |
 |---|---|
-| `CLAUDE_CODE_OAUTH_TOKEN` | token lấy ở Bước 1 |
+| `CLAUDE_CODE_OAUTH_TOKEN` | OAuth token từ `claude setup-token` |
 | `ZENDESK_SUBDOMAIN` | `blockofgear` |
 | `ZENDESK_EMAIL` | `seven92167@gmail.com` |
-| `ZENDESK_API_TOKEN` | API token Zendesk của bạn |
-
-> ⚠️ Token chỉ nằm trong Secrets — KHÔNG bao giờ nằm trong file/code.
-
-### Bước 5 — Chạy thử
-Repo → tab **Actions** → workflow **"CS Ticket Draft — Test (DRY-RUN)"** → **Run workflow**
-→ nhập **ticket_id** (một ticket thật trên Zendesk, vd `548708`) → Run.
-
-Mở log bước **"Draft ticket (DRY-RUN)"** → bạn sẽ thấy:
-- Draft trả lời (tiếng Anh) + 1 dòng tóm tắt tiếng Việt
-- Không có gì bị ghi lên Zendesk (kiểm tra ticket vẫn nguyên)
+| `ZENDESK_API_TOKEN` | API token Zendesk |
+| `SHOPIFY_ACCESS_TOKEN` | Access token store Flagwix (`shpat_...`) |
 
 ---
 
-## Nếu lỗi (troubleshooting)
-- **Treo ở permission / không có output:** thêm `--permission-mode dontAsk` vào lệnh `claude` trong `draft-test.yml`.
-- **MCP config không nhận:** đổi key `"mcpServers"` → `"servers"` trong `mcp.zendesk.json` rồi chạy lại.
-- **Auth lỗi:** kiểm tra `CLAUDE_CODE_OAUTH_TOKEN` đã nạp đúng (token Bước 1, không phải API key).
-- **Zendesk 401/403:** kiểm tra `ZENDESK_EMAIL` + `ZENDESK_API_TOKEN` + subdomain.
-- Copy đoạn log lỗi gửi lại, mình sửa cùng bạn.
+## Trigger tự động (đã setup)
+
+| Trigger | Zendesk trigger name | Khi nào chạy |
+|---|---|---|
+| Ticket mới | CS Bot — New ticket | Khách gửi ticket mới |
+| Khách reply | CS Bot — Customer reply | Khách comment vào ticket đang mở |
+| Fallback | cron `0 * * * *` | Mỗi 1 tiếng — bắt ticket bỏ sót |
+
+Nhiều ticket đến cùng lúc → concurrency group `cs-draft` đảm bảo chỉ 1 sweep chạy tại 1 thời điểm, sweep sau bắt hết ticket còn lại.
 
 ---
 
-## Sau khi test OK
-- Bản này CHƯA dùng skill `cs-ticket-handler` đầy đủ (chỉ prompt tối giản) — chủ ý để smoke-test pipeline.
-- Bước tiếp (production): commit skill vào `.claude/skills/`, đổi sang trigger bằng **Zendesk webhook** (tự chạy khi có ticket), chuyển repo **public** (để free phút Actions ở volume cao), và bật ghi thật (`add_ticket_comment public=false`).
-- ⚠️ Nhắc: ở 500 ticket/ngày, quota subscription sẽ nghẽn — lúc đó tính chuyện xin admin cấp API key.
+## Chạy thủ công
+
+**Actions → CS Ticket Draft — Production → Run workflow**
+
+Dùng khi muốn sweep ngay mà không chờ trigger.
+
+---
+
+## Dry-run test
+
+**Actions → CS Ticket Draft — Test (DRY-RUN) → Run workflow** → nhập `ticket_id`
+
+Đọc 1 ticket cụ thể, in draft ra log, **không ghi gì lên Zendesk**. Dùng để kiểm tra chất lượng draft trước khi cho chạy thật.
+
+---
+
+## Troubleshooting
+
+| Lỗi | Hướng xử lý |
+|---|---|
+| Workflow không trigger khi có ticket | Kiểm tra Zendesk trigger `CS Bot — New ticket` còn active không; kiểm tra webhook `GitHub CS Bot` còn active không |
+| `401` / `403` Zendesk | Kiểm tra `ZENDESK_EMAIL` + `ZENDESK_API_TOKEN` + subdomain |
+| `401` GitHub trong Zendesk webhook log | OAuth token hết hạn → chạy lại `claude setup-token`, cập nhật secret `CLAUDE_CODE_OAUTH_TOKEN` |
+| `401` Shopify | Kiểm tra `SHOPIFY_ACCESS_TOKEN` |
+| Workflow treo không có output | `--permission-mode dontAsk` đã có trong workflow — kiểm tra log bước install Claude Code |
+| Draft chất lượng kém | Chạy dry-run test với ticket cụ thể → xem log → điều chỉnh skill trong `.claude/skills/cs-ticket-handler/` |

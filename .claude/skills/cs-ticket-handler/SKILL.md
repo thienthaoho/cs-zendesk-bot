@@ -95,21 +95,7 @@ Script **chỉ xóa nhiễu** (marketing/footer/URL/ký tự ẩn/CEO letter), *
 
 **Tên khách:** luôn lấy từ **form field First Name** (hoặc Zendesk user profile), KHÔNG dùng nickname/sign-off cuối message (vd: "Thanks Tony" ≠ tên). Convert sang Title case nếu ALL CAPS.
 
-**Nhận diện persona** (xác định ngay sau khi đọc ticket — ảnh hưởng toàn bộ tone từ câu đầu tiên):
-
-| Tín hiệu | Persona |
-|---|---|
-| Sản phẩm memorial (hummingbird, cardinal, "in loving memory", in tên người đã mất) | 🕊️ Grieving Grace |
-| Sản phẩm military / POW-MIA / US flag / 250th | 🇺🇸 Patriot Pete |
-| Sản phẩm religious (cross, scripture, blessed) | ✝️ Faith-Driven Faye |
-| Sản phẩm pet flag (breed-specific) | 🐾 Dog Mom Debbie |
-| Sản phẩm seasonal / holiday / "for Christmas / Halloween..." | 🎃 Holiday Helen |
-| Mua tặng ("it's a gift", "for my mom/dad") | 🎁 Gift Giver Gary |
-| Sản phẩm garden flag, nhiều cái cùng lúc | 🌸 Garden Gina |
-| Đặt hàng cho 4th of July 2026, 250th Anniversary | 🇺🇸 Anniversary America |
-
-Nếu có nhiều tín hiệu → xem rule ưu tiên trong [`references/flagwix-customer-context.md`](references/flagwix-customer-context.md) §Multi-persona.
-Ghi rõ persona đã chọn vào internal note header để dễ review.
+Ghi nhận tín hiệu persona sơ bộ từ ticket (sản phẩm loại gì, "it's a gift", "for Christmas", "in loving memory"...) — xác nhận đầy đủ tại Bước 3 sau khi có đủ data đơn hàng.
 
 ### Bước 2 — Thu thập đầy đủ bối cảnh — 🚧 HARD GATE, KHÔNG ĐƯỢC BỎ QUA
 
@@ -189,6 +175,32 @@ Khi body ticket chỉ là một order number (không có mô tả vấn đề):
 > Phân loại + ưu tiên CHỈ làm sau khi có đủ data ở Bước 2 — vd "delay >14 ngày = urgent" phải tính từ ngày đặt/tracking thật, không đoán khi chưa tra đơn.
 Dùng `customer-support:ticket-triage`: phân loại (order issue / shipping / refund-return / product question / damaged-wrong / cancellation / address change / khác), gán **độ ưu tiên** + chọn **tag** (theo zendesk-ops.md).
 > **Fallback nếu plugin lỗi/không available:** phân loại thủ công dựa vào Bước 1+2 — dùng danh sách type trên + priority theo SLA table trong `cs-rules.md §7`.
+
+**Xác nhận persona** (dùng data đầy đủ từ Bước 2 — sản phẩm thật, lời khách, ngữ cảnh):
+
+| Tín hiệu | Persona |
+|---|---|
+| Sản phẩm memorial (hummingbird, cardinal, "in loving memory", in tên người đã mất) | 🕊️ Grieving Grace |
+| Sản phẩm military / POW-MIA / US flag / 250th | 🇺🇸 Patriot Pete |
+| Sản phẩm religious (cross, scripture, blessed) | ✝️ Faith-Driven Faye |
+| Sản phẩm pet flag (breed-specific) | 🐾 Dog Mom Debbie |
+| Sản phẩm seasonal / holiday / "for Christmas / Halloween..." | 🎃 Holiday Helen |
+| Mua tặng ("it's a gift", "for my mom/dad") | 🎁 Gift Giver Gary |
+| Sản phẩm garden flag, nhiều cái cùng lúc | 🌸 Garden Gina |
+| Đặt hàng cho 4th of July 2026, 250th Anniversary | 🇺🇸 Anniversary America |
+
+Nếu có nhiều tín hiệu → xem rule ưu tiên trong [`references/flagwix-customer-context.md`](references/flagwix-customer-context.md) §Multi-persona.
+Ghi rõ persona đã xác nhận vào PHẦN 1 NỘI BỘ của internal note.
+
+**Đơn nhạy cảm deadline lễ / sự kiện (flag riêng khi draft):**
+Kiểm tra: persona là Holiday Helen / Anniversary America / Gift Giver Gary, HOẶC khách nhắc "need it before [date]" / "for [holiday]" / "it's a gift" — VÀ đơn chưa tới hoặc đang delay.
+
+Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draft (Bước 4) bắt buộc:
+- Thừa nhận ý nghĩa dịp lễ / món quà (không né, không nói chung chung "we're sorry for the inconvenience")
+- Tìm lý do cụ thể, có thật để khách tin đơn đang đến kịp: tracking đang ở đâu, còn bao nhiêu ngày, tỉ lệ giao trước [ngày lễ] là bao nhiêu
+- Nếu tracking cho thấy còn kịp → tone tự tin, nhẹ nhàng cam kết + gợi ý check lại trước lễ
+- Nếu không chắc kịp → thành thật + đề xuất plan B rõ ràng (resend expedited / partial refund / giải pháp khác) — KHÔNG để khách tự đoán
+- Mục tiêu: khách rời ticket với cảm giác "họ hiểu tôi, tôi biết chuyện gì đang xảy ra, tôi có thể chờ vì có lý do"
 
 ### Bước 4 — Cổng quyết định
 **Đã đủ thông tin ĐÃ XÁC MINH để trả lời đúng yêu cầu khách chưa?**

@@ -38,5 +38,18 @@ jobs:
             --model claude-sonnet-4-6 \
             --mcp-config mcp.json \
             --allowedTools "Bash,Read,Skill,Task,mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__get_ticket_comments,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-orders,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
-            --output-format text \
-            --permission-mode dontAsk
+            --output-format json \
+            --permission-mode dontAsk > /tmp/result.json
+
+          echo "========== DRAFT OUTPUT =========="
+          jq -r '.result // .' /tmp/result.json
+          echo ""
+          echo "========== TOKEN USAGE (token thuc te cho 1 ticket) =========="
+          jq '{
+            input_tokens: .usage.input_tokens,
+            output_tokens: .usage.output_tokens,
+            cache_read_input_tokens: .usage.cache_read_input_tokens,
+            cache_creation_input_tokens: .usage.cache_creation_input_tokens,
+            total_cost_usd: .total_cost_usd,
+            duration_ms: .duration_ms
+          }' /tmp/result.json

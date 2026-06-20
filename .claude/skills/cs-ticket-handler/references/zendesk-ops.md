@@ -26,8 +26,21 @@ Các tool lõi đã xác nhận có:
 - Giới hạn an toàn mỗi lượt: tối đa N ticket (mặc định 20) rồi dừng + báo còn lại.
 
 ## 2. Đọc 1 ticket
-- `get_ticket(<id>)` → đọc toàn bộ conversation (public + internal note cũ), requester info, **tags hiện có** (nhớ lại để không ghi đè khi set tag), brand, assignee, status, custom fields.
-- Lấy: email khách, số đơn/tracking nếu khách nhắc, sản phẩm, ngôn ngữ.
+
+### 2a. Nội dung hội thoại — QUA script làm sạch (BẮT BUỘC, tiết kiệm ~80% token)
+```bash
+node "C:/Users/Admin/.claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id>
+node ...zendesk-clean.mjs <ticket_id> --json    # output JSON nếu cần parse máy
+node ...zendesk-clean.mjs <ticket_id> --raw     # in body gốc (debug)
+```
+- Script tự đọc creds từ `~/.claude.json` (ZENDESK_SUBDOMAIN/EMAIL/API_TOKEN), fetch `tickets/<id>/comments.json`, **cắt nhiễu**: marketing footer ("Best items", "Shop now"), thư CEO, URL tracking dài, ký tự ẩn padding, unsubscribe/privacy, wrapper form-builder. **Giữ:** phần khách viết, quote chain ngắn, và Order Summary (order# `FLWSP...`, sản phẩm, variant, giá, địa chỉ billing/shipping).
+- Mỗi comment in kèm: `[public/internal-note]`, thời gian, channel, **tên file đính kèm** (chỉ TÊN — KHÔNG tải, để HUMAN tự mở).
+- Kết quả thực đo: ticket 548807 18,608 → 3,247 ký tự (−83%); ticket ngắn (548960) giảm ít là bình thường.
+- ⚠️ Hạn chế đã biết: Order Summary có thể lặp giữa các comment nếu khách quote email xác nhận nhiều lần — đọc 1 lần là đủ, bỏ qua bản lặp.
+- Fallback nếu script lỗi (Node/creds/API down): dùng MCP `get_ticket_comments` rồi tự bỏ phần marketing khi đọc.
+
+### 2b. Metadata — qua MCP
+- `get_ticket(<id>)` (KHÔNG cần `include_comments`) → **tags hiện có** (nhớ để không ghi đè khi set tag), brand, assignee, status, custom fields, requester info.
 - Chỉ đọc text; không fetch link/đính kèm (xem guardrail trên). Ghi nhận "khách đính kèm N ảnh" như metadata.
 
 ## 3. Search ticket liên quan (🚧 HARD GATE)

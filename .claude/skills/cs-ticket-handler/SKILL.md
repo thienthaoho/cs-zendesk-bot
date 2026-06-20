@@ -209,12 +209,15 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
   1. Dùng `customer-support:draft-response` viết reply theo **[`voice-persona.md`](references/voice-persona.md)** (người thật, không em dash/emoji, đồng cảm trước, trấn an tiền), **chèn dữ liệu thật** (số đơn, tracking, ngày, link).
 
   **Ticket positive feedback / delivery confirmed (P4):**
-  Dù không có vấn đề cần giải quyết, reply không được chỉ là 1 dòng generic. Phải connect với ý nghĩa sản phẩm và persona:
-  - Patriot Pete / Anniversary America → gắn với niềm tự hào, dịp lễ đang đến, ý nghĩa 250 năm / cờ Mỹ
-  - Grieving Grace → nhẹ nhàng, acknowledge ý nghĩa tưởng niệm
-  - Gift Giver Gary → hỏi thêm người nhận có thích không (nếu phù hợp), chúc dịp tặng quà
-  - Dog Mom Debbie / Holiday Helen → warm, thân thiện, echo lại sự phấn khích của khách
-  Mục tiêu: khách đọc xong thấy được trân trọng vì mình đã chọn Flagwix, không phải thấy bị "ack and close".
+  Dù không có vấn đề cần giải quyết, reply không được chỉ là 1 dòng generic. Cấu trúc reply gồm 3 phần:
+  1. **Cảm xúc sản phẩm theo ngữ cảnh dùng:** echo lại khoảnh khắc khách đang trải nghiệm sản phẩm — flag đang bay ở đâu, dịp gì, ý nghĩa với ai. Phải cụ thể theo sản phẩm thật + persona:
+     - Patriot Pete / Anniversary America → niềm tự hào 250 năm, cờ bay trước nhà dịp 4th July
+     - Grieving Grace → nhẹ nhàng, hình ảnh tưởng niệm đã có chỗ xứng đáng
+     - Gift Giver Gary → người nhận đang cầm món quà, hỏi nhẹ phản ứng của họ
+     - Dog Mom Debbie / Holiday Helen → warm, thân thiện, echo đúng niềm vui khách chia
+  2. **Cảm ơn chân thành + hi vọng gặp lại:** không dùng "Thank you for your feedback" — viết như người thật, nói rõ mình trân trọng việc khách dành thời gian chia sẻ.
+  3. **Tặng code giảm giá:** luôn kèm code `THANKYOU` giảm 15% cho lần mua tiếp. Ví dụ: "As a small thank-you, use code THANKYOU at checkout for 15% off your next order."
+  Mục tiêu: khách đọc xong thấy được trân trọng, muốn quay lại — không phải bị "ack and close".
 
   **Quy tắc ngày tháng trong draft — bắt buộc:**
   - **Delivery date:** chỉ ghi ngày giao cụ thể khi tracking có ETA rõ ràng, HOẶC tracking cho thấy đã có lượt giao đến người nhận (out for delivery / attempted delivery / delivered). Mọi trường hợp còn lại (in transit, label created, pre-shipment...) → KHÔNG ghi ngày giao cụ thể, chỉ nói chung "on its way" hoặc ước lượng theo transit time chuẩn.

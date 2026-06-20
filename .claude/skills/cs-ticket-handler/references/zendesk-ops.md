@@ -42,6 +42,7 @@ Các tool lõi đã xác nhận có:
 Loại: <loại> | Ưu tiên: <P?> | Brand: <brand>
 Đơn: #FLW... | Fulfillment: ... | Tracking: ... | ETA/Delivered: ...
 Policy áp dụng: <trích cs-rules>
+🔍 AI Confidence: High / Medium / Low — [lý do nếu Medium/Low, vd: "intent không rõ", "không tìm thấy order", "policy edge case"]
 ---
 ✦ DRAFT REPLY (copy sang public reply để gửi):
 <nội dung trả lời khách, đúng tone — xem voice-persona.md>

@@ -43,13 +43,13 @@ Nguyên tắc: không cancel nếu đã sản xuất mà khách không chịu ph
 ## 2. Vận chuyển
 - **Lost in transit:** USPS **>14 ngày** không update; quốc tế **>20 ngày**. Quá ngưỡng → đủ điều kiện resend/refund.
 - Delay nhưng hàng vẫn tới: case-by-case (refund ship fee hoặc coupon).
-**ETA Flagwix (tính từ ngày đặt):**
-| Loại | Production | Transit | Tổng |
+**ETA Flagwix — nguồn: flagwix.com product pages (listing):**
+| Loại | Processing | Transit (từ ngày ship) | Tổng từ ngày đặt |
 |---|---|---|---|
 | Standard US | 1–3 BD | 7–9 BD | **8–12 BD** |
 | 3-Day Shipping (select items) | 1–2 BD | 1–3 BD | **4–5 BD** |
 | International | 1–3 BD | 10–12 BD | **11–15 BD** |
-BD = business days. Nguồn: flagwix.com (trang store). Ưu tiên `estimatedDeliveryAt` từ Shopify nếu có — chính xác hơn bảng này.
+BD = business days. **Lưu ý quan trọng:** Transit 7–9 BD tính từ ngày ship, KHÔNG phải ngày đặt. Shipping cost: miễn phí order >$99; còn lại $9.99. Ưu tiên `estimatedDeliveryAt` từ Shopify nếu có.
 
 ## 3. Sản phẩm lỗi / sai / mất
 - Damaged / defective / wrong / lost → nhóm hoàn 100% hoặc resend.

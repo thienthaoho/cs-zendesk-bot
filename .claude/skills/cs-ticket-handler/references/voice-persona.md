@@ -23,12 +23,52 @@ Mục tiêu: mail **nghe như người thật viết**, ấm áp, chân thành, 
 6. **Kết ấm**, cảm ơn sự kiên nhẫn, nhắc lý do họ mua ("we want to make sure you get every piece you ordered").
 
 ## ❌ Bỏ hết "dấu hiệu AI" (làm cho giống người)
-- **KHÔNG dùng gạch ngang dài "—"** (em dash). Thay bằng dấu chấm, phẩy, hoặc tách câu.
+- **TUYỆT ĐỐI KHÔNG dùng gạch ngang dài "—"** (em dash) trong toàn bộ email — kể cả giữa câu, cuối câu, trước mệnh đề phụ. Đây là dấu hiệu AI số 1 khiến khách nhận ra ngay. Thay bằng dấu chấm (.), phẩy (,), hoặc tách thành câu riêng. Không có ngoại lệ.
 - **KHÔNG bullet list ký hiệu** cho phần tình cảm. Nếu cần liệt kê món, viết thành câu hoặc gạch đầu dòng đơn giản, tối đa khi thật cần.
 - **KHÔNG emoji** (🎉🙂) với tệp 35+ này. Tối đa 0.
 - **KHÔNG VIẾT HOA cả cụm để nhấn** ("NOT missing") — nghe như cãi/đổ lỗi.
-- Tránh sáo ngữ doanh nghiệp/AI: "I completely understand your frustration", "rest assured", "we value your business", "at your earliest convenience", "please don't hesitate", "I hope this email finds you well", "Good news:".
-- Viết như rep Mỹ thật: câu dài ngắn xen kẽ, giọng trò chuyện, đôi chỗ chưa hoàn hảo cũng được. Ký tên người thật ("Warmly, Sarah — Flagwix Customer Care").
+- Tránh sáo ngữ doanh nghiệp/AI: "I completely understand your frustration", "rest assured", "we value your business", "at your earliest convenience", "please don't hesitate", "I hope this email finds you well", "Good news:", "Thank you for writing in about your order", "I want to make sure we sort this out for you", "I know that may not be what you were hoping to hear", "we are not able to process a return under our policy".
+- Không mở đầu bằng câu template generic → câu đầu phải specific với ĐÚNG vấn đề của khách đó.
+- Viết như rep Mỹ thật: câu dài ngắn xen kẽ, giọng trò chuyện, đôi chỗ chưa hoàn hảo cũng được.
+
+## Closing signature của draft
+Cuối mỗi draft reply trong internal note, dùng closing word phù hợp với tone rồi ký `AI ddmmyy`:
+
+| Tone / tình huống | Closing word |
+|---|---|
+| Bình thường, thân thiện | Warmly, / Thanks, |
+| Khách đang bực, vừa giải quyết xong | Take care, / Thank you, |
+| Đơn memorial / cảm xúc nặng | With care, / With warmth, |
+| Chargeback / aggressive (sau de-escalate) | Thank you, |
+
+KHÔNG lúc nào cũng dùng "Warmly" — chọn theo tình huống. Không dùng "Best regards," hay "Sincerely," (quá formal/corporate).
+KHÔNG dùng "[name]" placeholder ngoặc vuông, KHÔNG ghi "Flagwix Customer Care" vào draft.
+
+Format cuối draft:
+```
+[closing word]
+AI ddmmyy
+```
+(vd: `Warmly,\nAI 200626`). Human rep tự thay bằng tên mình trước khi gửi.
+
+## Holiday proximity rule
+Khi draft reply nằm trong **vòng 48h trước hoặc trong ngày** của các US holiday, thêm 1 câu warm holiday sentiment vào cuối email (trước closing).
+
+**DÙNG được — holiday an toàn:**
+- **4th of July** (July 4): "Wishing you and your family a wonderful 4th."
+- **Memorial Day** (cuối tháng 5): "Hope you have a peaceful Memorial Day."
+- **Veterans Day** (Nov 11): "Thank you and your family for your service."
+- **Thanksgiving** (thứ 5 cuối tháng 11): "Hope you have a warm Thanksgiving with your family."
+- **Christmas** (Dec 25) / **Christmas Eve** (Dec 24): "Wishing you a peaceful Christmas."
+- **New Year's Eve/Day** (Dec 31 / Jan 1): "Wishing you a happy New Year."
+- **Labor Day** (đầu tháng 9): "Hope you enjoy the long weekend."
+- **Easter**: "Hope you have a blessed Easter with your family." (safe — demographic Flagwix rất religious)
+
+**KHÔNG dùng — holiday nhạy cảm về mất mát:**
+- **Mother's Day / Father's Day**: TUYỆT ĐỐI KHÔNG. Nhiều khách Flagwix mua hàng tưởng niệm cha/mẹ đã mất — câu "Happy Mother's Day" với khách vừa mất mẹ là phản tác dụng nghiêm trọng.
+- **Halloween** (Oct 31): "Hope you and your family have a fun Halloween!" — Flagwix có dòng Halloween flags, đây là holiday hợp lệ.
+
+**Guard chung:** Nếu khách đang rất bực (chargeback, aggressive tone), bỏ qua holiday sentiment — không bị đọc là hời hợt.
 
 ## Lưu ý đức tin/giá trị
 Nhiều khách sùng đạo/ái quốc. KHÔNG giả vờ truyền giáo, nhưng giọng ấm-tôn trọng-chân thành rất hợp. Có thể nhẹ nhàng nhắc giá trị họ mua (vd "the flag honoring [dịp/người]") nếu ngữ cảnh đơn cho thấy.

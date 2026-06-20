@@ -21,6 +21,7 @@ Skill chuyên **VIẾT** — chỉ chạy ở bước draft, nên được nạp
    (loại: `wismo`, `shipping-delay`, `damaged`, `split-shipment`, `refund-approved`, `refund-declined`, `cancellation`, `address-change`, `product-question`, `holding`, `tracking-delivered-not-received`, `wrong-personalization`, `ip-trademark`). Script trả về đúng 1 template — KHÔNG đọc cả file.
 2. **Viết lại tự nhiên** theo hoàn cảnh thật của khách đó: đúng tên, số đơn, tracking, vấn đề, cảm xúc. Mỗi mail nghe như viết riêng.
 3. **Tra quy tắc đặc thù khi gặp** (đơn chưa ship / ca đặc biệt / positive feedback) → đọc [`references/draft-rules.md`](references/draft-rules.md). Bỏ qua nếu ca thường.
+   - Đơn chưa ship: **business-day bucket lấy từ `policy-dates.mjs`** (cs-ticket-process đã chạy ở Bước 2.3) — đừng tự nhẩm ngày. Bucket cho biết viết theo hướng nào; *văn lý do* thì lấy ở draft-rules §A.
 4. Tone theo persona đã chốt (Grieving Grace: chậm/nhẹ; Dog Mom Debbie: nhanh/friendly; Patriot Pete: tôn trọng/honor). Cần chi tiết persona → đọc [`../cs-ticket-process/references/personas.md`](../cs-ticket-process/references/personas.md).
 
 ## Quy tắc data trong draft (BẮT BUỘC)

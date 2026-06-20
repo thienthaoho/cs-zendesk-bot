@@ -6,7 +6,7 @@ Chỉ đọc file này khi gặp đúng ca bên dưới. Ca thường (WISMO có
 
 ## A. Đơn UNFULFILLED — xử lý theo số business day đã qua (Mon–Fri, bỏ Sat–Sun)
 
-Tính business days = từ `created_at` (Shopify) đến ngày khách hỏi (hôm nay).
+> 🔢 **Số business-day + bucket lấy từ `policy-dates.mjs`** (cs-ticket-process đã chạy) — đừng nhẩm tay. Bảng dưới là *văn lý do* tương ứng từng bucket.
 
 | Business days kể từ đặt hàng | Cách draft |
 |---|---|

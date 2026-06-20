@@ -17,7 +17,8 @@ Tự động draft trả lời ticket Customer Support trên Zendesk (blockofgea
   cs-orchestrator/      # ĐIỀU PHỐI: quét ticket, định tuyến, báo cáo (entry point, luôn nhẹ)
   cs-ticket-process/    # XỬ LÝ 1 TICKET: đọc → context (lịch sử + đơn) → triage + persona
     references/         #   cs-rules, zendesk-ops, shopify-lookup, personas, feedback-loop (đọc khi cần)
-    scripts/            #   zendesk-clean.mjs (lọc rác ticket, giữ chữ khách)
+    scripts/            #   zendesk-clean.mjs (lọc rác ticket) + shopify-order.mjs (lấy đơn gọn)
+                        #   + policy-dates.mjs (tính hạn refund/ETA/lost-in-transit/dịp lễ bằng code)
   cs-draft-writer/      # VIẾT DRAFT: giọng người thật, đúng tone, không bịa
     references/         #   voice-persona.md, draft-rules.md
     data/               #   templates.md (← SỬA Ở ĐÂY) + get-template.mjs (đọc 1 template)
@@ -33,7 +34,8 @@ mcp.zendesk.json        # MCP config cũ (chỉ Zendesk, dùng cho dry-run test)
 
 ### Sửa nội dung — chỉ cần sửa file `.md`
 - **Mẫu câu trả lời:** sửa `cs-draft-writer/data/templates.md` (text thường, dễ đọc). Script `get-template.mjs` tự đọc file này — **không có file JSON nào để đồng bộ**.
-- **Policy / SLA / refund:** `cs-ticket-process/references/cs-rules.md`
+- **Policy / SLA / refund (phần diễn giải):** `cs-ticket-process/references/cs-rules.md`
+- **Ngưỡng policy bằng số (hạn refund, 12h sửa đơn, lost-in-transit, ETA, lịch dịp lễ):** khối `CFG` đầu file `cs-ticket-process/scripts/policy-dates.mjs` — có chú thích, sửa số là xong. ⚠️ Lịch dịp lễ đang là **2026**, sang năm phải cập nhật.
 - **Giọng văn:** `cs-draft-writer/references/voice-persona.md`
 - **Quy tắc viết theo ca (đơn chưa ship, deadline lễ, positive feedback...):** `cs-draft-writer/references/draft-rules.md`
 

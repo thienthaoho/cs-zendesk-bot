@@ -2,7 +2,7 @@
 
 Tự động draft trả lời ticket Customer Support trên Zendesk (blockofgear.zendesk.com) cho store Flagwix.
 
-**Cách hoạt động:** Khi khách gửi ticket mới hoặc reply → Zendesk webhook → GitHub Actions → Claude Code chạy skill `cs-ticket-handler` → ghi draft vào **internal note** trên ticket → CS team đọc, chỉnh nếu cần, rồi gửi.
+**Cách hoạt động:** Khi khách gửi ticket mới hoặc reply → Zendesk webhook → GitHub Actions → Claude Code chạy skill `cs-orchestrator` → mỗi ticket đi qua `cs-ticket-process` (đọc → context → triage) → `cs-draft-writer` viết draft → `cs-draft-reviewer` soi chất lượng → ghi draft vào **internal note** trên ticket → CS team đọc, chỉnh nếu cần, rồi gửi.
 
 - Chạy trên cloud — máy tắt vẫn chạy
 - Dùng Claude subscription (OAuth) — không tốn Anthropic API key
@@ -10,16 +10,35 @@ Tự động draft trả lời ticket Customer Support trên Zendesk (blockofgea
 
 ---
 
-## Cấu trúc repo
+## Cấu trúc repo — kiến trúc nhiều skill phối hợp
 
 ```
-.claude/skills/cs-ticket-handler/   # skill logic (policy, tone, templates)
+.claude/skills/
+  cs-orchestrator/      # ĐIỀU PHỐI: quét ticket, định tuyến, báo cáo (entry point, luôn nhẹ)
+  cs-ticket-process/    # XỬ LÝ 1 TICKET: đọc → context (lịch sử + đơn) → triage + persona
+    references/         #   cs-rules, zendesk-ops, shopify-lookup, personas, feedback-loop (đọc khi cần)
+    scripts/            #   zendesk-clean.mjs (lọc rác ticket, giữ chữ khách)
+  cs-draft-writer/      # VIẾT DRAFT: giọng người thật, đúng tone, không bịa
+    references/         #   voice-persona.md, draft-rules.md
+    data/               #   templates.md (← SỬA Ở ĐÂY) + get-template.mjs (đọc 1 template)
+    scripts/            #   tone-check.mjs (soi em dash/emoji/sáo ngữ bằng code)
+  cs-draft-reviewer/    # SOI CHẤT LƯỢNG: sai nghĩa / ngữ cảnh / khó hiểu / thiếu chuyên nghiệp
+  cs-ticket-learn/      # HỌC FEEDBACK từ Lark Base → đề xuất sửa skill (chờ duyệt)
 .github/workflows/
-  production.yml                    # workflow chính (webhook + cron fallback)
-  draft-test.yml                    # dry-run test thủ công (không ghi Zendesk)
-mcp.json                            # MCP config: Zendesk + Shopify
-mcp.zendesk.json                    # MCP config cũ (chỉ Zendesk, dùng cho dry-run test)
+  production.yml        # workflow chính (webhook + cron fallback) — chạy --model claude-sonnet-4-6
+  draft-test.yml        # dry-run test thủ công (không ghi Zendesk)
+mcp.json                # MCP config: Zendesk + Shopify
+mcp.zendesk.json        # MCP config cũ (chỉ Zendesk, dùng cho dry-run test)
 ```
+
+### Sửa nội dung — chỉ cần sửa file `.md`
+- **Mẫu câu trả lời:** sửa `cs-draft-writer/data/templates.md` (text thường, dễ đọc). Script `get-template.mjs` tự đọc file này — **không có file JSON nào để đồng bộ**.
+- **Policy / SLA / refund:** `cs-ticket-process/references/cs-rules.md`
+- **Giọng văn:** `cs-draft-writer/references/voice-persona.md`
+- **Quy tắc viết theo ca (đơn chưa ship, deadline lễ, positive feedback...):** `cs-draft-writer/references/draft-rules.md`
+
+### Đổi model (chất lượng vs chi phí)
+Trong `production.yml` / `draft-test.yml`, đổi `--model claude-sonnet-4-6` thành `--model claude-opus-4-8` nếu cần văn chất lượng cao nhất (đắt hơn). Sonnet 4.6 là mức cân bằng khuyến nghị.
 
 ---
 

@@ -9,7 +9,7 @@ Skill đọc feedback human từ Lark Base, phân tích lỗi, đề xuất thay
 
 ## Kết nối
 - **Lark Base:** bảng `NMzKbxBLqa71FzskfWmu8zwis5d` / table `tbl2o1H6GQKttR3O`
-- Chi tiết field & trạng thái: [`../cs-ticket-handler/references/feedback-loop.md`](../cs-ticket-handler/references/feedback-loop.md)
+- Chi tiết field & trạng thái: [`../cs-ticket-process/references/feedback-loop.md`](../cs-ticket-process/references/feedback-loop.md)
 
 ## Quy trình
 

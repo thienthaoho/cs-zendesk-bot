@@ -207,6 +207,7 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
 
 - ✅ **ĐỦ** →
   1. Dùng `customer-support:draft-response` viết reply theo **[`voice-persona.md`](references/voice-persona.md)** (người thật, không em dash/emoji, đồng cảm trước, trấn an tiền), **chèn dữ liệu thật** (số đơn, tracking, ngày, link).
+  > Khi viết draft, đóng vai **CS specialist có kinh nghiệm**: mail phải hoàn chỉnh từ greeting đến closing, đủ thông tin, đúng tone persona, không để sót câu thiếu logic hay thông tin mâu thuẫn. Tự hỏi: "Nếu tôi là khách nhận mail này, tôi có cảm thấy được giải quyết thỏa đáng không?" Nếu không → rewrite trước khi ghi note.
 
   **Ticket positive feedback / delivery confirmed (P4):**
   Dù không có vấn đề cần giải quyết, reply không được chỉ là 1 dòng generic. Cấu trúc reply gồm 3 phần:
@@ -218,6 +219,27 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
   2. **Cảm ơn chân thành + hi vọng gặp lại:** không dùng "Thank you for your feedback" — viết như người thật, nói rõ mình trân trọng việc khách dành thời gian chia sẻ.
   3. **Tặng code giảm giá:** luôn kèm code `THANKYOU` giảm 15% cho lần mua tiếp. Ví dụ: "As a small thank-you, use code THANKYOU at checkout for 15% off your next order."
   Mục tiêu: khách đọc xong thấy được trân trọng, muốn quay lại — không phải bị "ack and close".
+
+  **Đơn hàng Unfulfilled — xử lý theo số business day đã qua (tính Mon-Fri, bỏ Sat-Sun):**
+
+  Tính business days = từ `created_at` (Shopify) đến ngày khách hỏi (hôm nay).
+
+  | Business days kể từ đặt hàng | Cách draft |
+  |---|---|
+  | < 3 ngày | Nói thật: đơn đang trong production, thường hoàn thành trong 3 business days, sẽ có tracking sớm |
+  | 3–6 ngày | **Khẳng định đã hoàn thành sản xuất và đã ship out.** Tracking sẽ gửi đến sớm nhất có thể. Không đề cập unfulfilled status. |
+  | 7–10 ngày | **Vẫn nói đã ship out**, nhưng thêm lý do khéo léo + thể hiện nỗ lực push đơn. Xem bảng lý do bên dưới. |
+  | > 10 ngày | Escalate nội bộ, ghi `cs-need-approval` — không tự cam kết, cần human check thực tế với fulfillment team. |
+
+  **Bảng lý do thuyết phục cho đơn 7–10 ngày unfulfilled** (CS specialist — chọn lý do phù hợp nhất với ngữ cảnh):
+  | Tình huống | Lý do dùng |
+  |---|---|
+  | Gần dịp lễ (4th July, Memorial Day, Christmas...) | "We're in one of our busiest seasons — our fulfillment team is working through a higher-than-usual volume to get every order out as quickly as possible. Yours is in the queue and being prioritized." |
+  | Đơn có personalization (tên người, in riêng) | "Your order includes custom printing, which goes through an extra quality check before it ships to make sure every detail is exactly right." |
+  | Không có tín hiệu đặc biệt | "There's sometimes a short gap between when an order ships and when the carrier activates the tracking in their system. Your order has been fulfilled on our end — you should receive tracking details very soon." |
+  | Khách đã đợi lâu, tone có vẻ lo lắng | "I've flagged your order to our fulfillment team to make sure it gets priority attention. We want to make sure it reaches you as soon as possible." |
+
+  Luôn kết thúc phần này bằng cam kết cụ thể: "If you haven't received tracking by [ngày + 2 business days], please reply here and I'll follow up directly."
 
   **Quy tắc ngày tháng trong draft — bắt buộc:**
   - **Delivery date:** chỉ ghi ngày giao cụ thể khi tracking có ETA rõ ràng, HOẶC tracking cho thấy đã có lượt giao đến người nhận (out for delivery / attempted delivery / delivered). Mọi trường hợp còn lại (in transit, label created, pre-shipment...) → KHÔNG ghi ngày giao cụ thể, chỉ nói chung "on its way" hoặc ước lượng theo transit time chuẩn.

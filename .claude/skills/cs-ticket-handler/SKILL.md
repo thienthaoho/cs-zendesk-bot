@@ -152,8 +152,7 @@ Sidebar Zendesk đã embed thông tin đơn hàng trực tiếp. Extract từ ti
 - ✅ Sidebar đã có order# + fulfillment status + tracking → **SKIP Shopify, dùng data từ Zendesk**
 - ⚠️ Gọi Shopify MCP **CHỈ KHI** một trong các điều kiện sau:
   1. Sidebar không hiển thị order (link Shopify-Zendesk lỗi / ticket không có order liên kết)
-  2. Fulfillment status trống hoặc thiếu tracking number
-  3. Cần thông tin chi tiết sản phẩm (mô tả, variant, specs) để trả lời câu hỏi về sản phẩm
+  2. Cần thông tin chi tiết sản phẩm (mô tả, variant, specs) để trả lời câu hỏi về sản phẩm
 
 **Khi cần gọi Shopify:** `get-customers`/`get-customer-orders` theo email → `get-order-by-id` (order, line items, fulfillment, tracking) | `get-products`/`get-product-by-id` (nếu hỏi về sản phẩm).
 

@@ -2,14 +2,11 @@ name: CS Ticket Draft — Production
 
 on:
   repository_dispatch:
-    types: [zendesk-ticket]   # Zendesk gọi khi có ticket mới hoặc khách reply
-  workflow_dispatch:           # chạy tay khi cần
+    types: [zendesk-ticket]
+  workflow_dispatch:
   schedule:
-    - cron: "0 * * * *"       # fallback: quét lại mỗi 1 tiếng (bắt ticket bị bỏ sót)
+    - cron: "0 * * * *"   # fallback mỗi 1 tiếng
 
-# Chỉ 1 sweep chạy tại 1 thời điểm.
-# Nếu nhiều webhook đến cùng lúc → cái sau xếp hàng (không bị hủy).
-# Khi cái trước xong, cái sau sweep lại → bắt hết ticket còn lại.
 concurrency:
   group: cs-draft
   cancel-in-progress: false
@@ -33,11 +30,39 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /usr/local/lib/node_modules/@anthropic-ai
-          key: claude-code-${{ runner.os }}-${{ hashFiles('**/package-lock.json') || 'latest' }}
+          key: claude-code-${{ runner.os }}-latest
 
       - name: Install Claude Code
         if: steps.cache-claude.outputs.cache-hit != 'true'
         run: npm install -g @anthropic-ai/claude-code
+
+      # Đọc timestamp lần sweep trước
+      - name: Restore sweep timestamp
+        uses: actions/cache/restore@v4
+        with:
+          path: /tmp/sweep-state.txt
+          key: sweep-state-${{ github.run_id }}
+          restore-keys: sweep-state-
+
+      - name: Read & save sweep timestamp
+        id: sweep-time
+        run: |
+          if [ -f /tmp/sweep-state.txt ]; then
+            SINCE=$(cat /tmp/sweep-state.txt)
+          else
+            # Lần đầu chạy: lấy 2 tiếng trước làm fallback
+            SINCE=$(date -u -d '2 hours ago' +"%Y-%m-%dT%H:%M:%SZ")
+          fi
+          echo "since=$SINCE" >> $GITHUB_OUTPUT
+          # Lưu timestamp lúc sweep này bắt đầu (để lần sau dùng)
+          date -u +"%Y-%m-%dT%H:%M:%SZ" > /tmp/sweep-state.txt
+
+      - name: Save sweep timestamp
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: /tmp/sweep-state.txt
+          key: sweep-state-${{ github.run_id }}
 
       - name: Run cs-ticket-handler sweep
         env:
@@ -46,8 +71,9 @@ jobs:
           ZENDESK_EMAIL:           ${{ secrets.ZENDESK_EMAIL }}
           ZENDESK_API_TOKEN:       ${{ secrets.ZENDESK_API_TOKEN }}
           SHOPIFY_ACCESS_TOKEN:    ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SWEEP_SINCE:             ${{ steps.sweep-time.outputs.since }}
         run: |
-          claude -p "quét ticket" \
+          claude -p "quét ticket, chỉ xử lý ticket tạo hoặc update từ ${SWEEP_SINCE}" \
             --mcp-config mcp.json \
             --allowedTools "mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__list_views,mcp__zendesk__add_ticket_comment,mcp__zendesk__update_ticket,mcp__shopify__get-orders,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
             --output-format text \

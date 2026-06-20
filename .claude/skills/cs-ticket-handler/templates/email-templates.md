@@ -25,7 +25,7 @@ it gets to your door, and you can always reply here if you'd like an update.
 Thanks for your patience, [First name].
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 2. shipping-delay
@@ -42,7 +42,7 @@ I know waiting isn't fun, especially when you were looking forward to it. I'm wa
 this one personally until it lands.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 3. damaged-item / wrong / missing
@@ -59,7 +59,7 @@ Your order is [#FLW...], item [product/variant]. Thank you for your patience whi
 sort this out for you.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 4. split-shipment (đơn nhiều món, ship riêng) — ca rất hay gặp
@@ -84,7 +84,7 @@ order on our end. You're in good hands here.
 Thank you for your patience, [First name]. We want to make sure you get every piece you ordered.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 5. refund-approved
@@ -98,7 +98,7 @@ I'm sorry for the trouble this caused, and I appreciate you giving us the chance
 it right.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 6. refund-declined / out-of-policy (DRAFT, thường cần duyệt)
@@ -112,7 +112,7 @@ I do want to help, so here's what I can do for you: [alternative per cs-rules]. 
 if that works and I'll take care of it.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 7. cancellation
@@ -126,7 +126,7 @@ Just confirm and I'll take care of it.
 Once it arrives you're welcome to [return per cs-rules], and I'll help you through it.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 8. address-change
@@ -139,20 +139,22 @@ corrected address and I'll change it before it ships.
 Here's what we can do instead: [next step per cs-rules].
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 9. product-question / how-to
 ```
 Hi [First name],
 
-Great question about [product]. [Answer in plain words: size, material, how to hang/use,
-personalization.] [Link if helpful.]
+[Answer the question directly in plain words — size, material, how to hang/use,
+personalization details. No opener needed; start with the answer.]
 
-If anything's still unclear, just reply and I'll be glad to help.
+[Link if helpful.]
+
+If anything's still unclear, just reply here and I'm happy to help.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 ## 10. holding-acknowledgment (gửi ngay khi chưa đủ info / chờ duyệt)
@@ -175,7 +177,7 @@ and I'll reach right back out as soon as I do.
 Thank you for your patience, [First name]. I've got this on my radar.
 
 Warmly,
-[Name], Flagwix Customer Care
+AI ddmmyy
 ```
 
 **Ghi chú điền:**

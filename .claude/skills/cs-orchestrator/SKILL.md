@@ -18,7 +18,10 @@ Skill **entry point** cho toàn bộ luồng CS. Việc của nó **rất nhẹ*
 ## Định tuyến — quyết định inline hay sub-agent
 
 - **1 ticket** (có ticket ID, hoặc sweep ra đúng 1 ticket): **gọi thẳng skill `cs-ticket-process`** cho ticket đó — KHÔNG mở sub-agent (nhanh nhất, ~1–2 phút).
-- **Nhiều ticket** (sweep ra ≥2): **mỗi ticket = 1 sub-agent riêng** (dùng Task tool), mỗi sub-agent chạy `cs-ticket-process` cho 1 ticket rồi trả về **đúng 1 dòng tóm tắt**. Lý do: cô lập context từng ticket → token không dồn cục, an toàn dưới mức ngân sách.
+- **Nhiều ticket** (sweep ra ≥2): mỗi ticket = **1 sub-agent riêng** (dùng Task tool) chạy `cs-ticket-process`, trả về **đúng 1 dòng tóm tắt**. Cô lập context từng ticket → token không dồn cục.
+  - ⚠️ **SONG SONG CÓ GIỚI HẠN: mở tối đa `MAX_PARALLEL = 4` sub-agent cùng lúc.** Xử lý theo đợt 4 ticket; xong đợt này mới mở đợt kế, tới khi hết (hoặc chạm giới hạn 20/lượt).
+  - Lý do giới hạn 4: bot chạy bằng **OAuth subscription** (hạn mức theo ~5 tiếng). Mở quá nhiều cùng lúc → đốt token dồn cục → **chạm trần và bị ngừng**. 4 là điểm cân bằng nhanh/an toàn. (Muốn nhanh hơn và chấp nhận rủi ro trần thì tăng số này; muốn an toàn hơn thì giảm.)
+  - Việc fan-out này **tự động** mỗi lần workflow chạy — không cần thao tác tay.
 
 > Sub-agent prompt mẫu: *"Dùng skill cs-ticket-process xử lý ticket Zendesk #<id>. Trả về đúng 1 dòng: `#<id> | <brand> | <loại> | <Drafted/Cần bổ sung/Escalate> | <tag đã set>`. Không in nội dung note dài."*
 

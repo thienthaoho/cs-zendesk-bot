@@ -1,0 +1,37 @@
+name: CS Ticket Draft — Production
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # mỗi 15 phút
+  workflow_dispatch:           # trigger thủ công (để test / chạy lại)
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20        # safety: kill nếu treo
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run cs-ticket-handler sweep
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ZENDESK_SUBDOMAIN:       ${{ secrets.ZENDESK_SUBDOMAIN }}
+          ZENDESK_EMAIL:           ${{ secrets.ZENDESK_EMAIL }}
+          ZENDESK_API_TOKEN:       ${{ secrets.ZENDESK_API_TOKEN }}
+          SHOPIFY_ACCESS_TOKEN:    ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+        run: |
+          claude -p "quét ticket" \
+            --mcp-config mcp.json \
+            --allowedTools "mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__list_views,mcp__zendesk__add_ticket_comment,mcp__zendesk__update_ticket,mcp__shopify__get-orders,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
+            --output-format text \
+            --permission-mode dontAsk

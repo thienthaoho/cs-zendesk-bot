@@ -1,6 +1,6 @@
 ---
 name: cs-ticket-handler
-description: Draft trả lời ticket CS Zendesk (blockofgear.zendesk.com) cho Flagwix/Shopify vào internal note — không tự gửi khách. Sweep tất cả ticket new/open, tra Shopify MCP, đối chiếu policy, set tag ai-drafted. LUÔN dùng skill này cho mọi việc draft/trả lời ticket Zendesk, đừng tự làm thủ công. Trigger khi user nói: 'xử lý ticket', 'quét ticket', 'draft ticket', 'check ticket zendesk', 'cs sweep', 'xem ticket mới', 'handle ticket', 'reply customer', 'zendesk sweep', 'process ticket', 'draft cs', 'check tickets', 'new tickets', 'handle cs', 'sweep zendesk', 'ticket zendesk'.
+description: "Draft trả lời ticket CS Zendesk (blockofgear.zendesk.com) cho Flagwix/Shopify vào internal note — không tự gửi khách. Sweep tất cả ticket new/open, tra Shopify MCP, đối chiếu policy, set tag ai-drafted. LUÔN dùng skill này cho mọi việc draft/trả lời ticket Zendesk, đừng tự làm thủ công. Trigger khi user nói: 'xử lý ticket', 'quét ticket', 'draft ticket', 'check ticket zendesk', 'cs sweep', 'xem ticket mới', 'handle ticket', 'reply customer', 'zendesk sweep', 'process ticket', 'draft cs', 'check tickets', 'new tickets', 'handle cs', 'sweep zendesk', 'ticket zendesk'."
 ---
 
 ## 🤖 Model khuyến nghị

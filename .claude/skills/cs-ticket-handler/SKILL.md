@@ -210,11 +210,11 @@ Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draf
 
   **Ticket positive feedback / delivery confirmed (P4):**
   Dù không có vấn đề cần giải quyết, reply không được chỉ là 1 dòng generic. Cấu trúc reply gồm 3 phần:
-  1. **Cảm xúc sản phẩm theo ngữ cảnh dùng:** echo lại khoảnh khắc khách đang trải nghiệm sản phẩm — flag đang bay ở đâu, dịp gì, ý nghĩa với ai. Phải cụ thể theo sản phẩm thật + persona:
-     - Patriot Pete / Anniversary America → niềm tự hào 250 năm, cờ bay trước nhà dịp 4th July
-     - Grieving Grace → nhẹ nhàng, hình ảnh tưởng niệm đã có chỗ xứng đáng
-     - Gift Giver Gary → người nhận đang cầm món quà, hỏi nhẹ phản ứng của họ
-     - Dog Mom Debbie / Holiday Helen → warm, thân thiện, echo đúng niềm vui khách chia
+  1. **Cảm xúc sản phẩm theo ngữ cảnh dùng:** nói về dịp/ý nghĩa sản phẩm với khách, bằng ngôn ngữ bình thường — KHÔNG triết lý, KHÔNG dùng em dash "—", KHÔNG câu văn kiểu AI cố tạo cảm xúc. Phải cụ thể theo sản phẩm thật + persona:
+     - Patriot Pete / Anniversary America → "Nothing like a patriotic flag ready for the Fourth." / "Hope it flies proudly all summer." — gắn với dịp lễ cụ thể, tự nhiên
+     - Grieving Grace → "We hope it brings some comfort." / "It sounds like it found the right home." — nhẹ, không over
+     - Gift Giver Gary → "Hope [họ] loves it." / "Sounds like a great gift." — ngắn, ấm
+     - Dog Mom Debbie / Holiday Helen → echo niềm vui của khách, đơn giản: "Love hearing that!" / "So happy it worked out!"
   2. **Cảm ơn chân thành + hi vọng gặp lại:** không dùng "Thank you for your feedback" — viết như người thật, nói rõ mình trân trọng việc khách dành thời gian chia sẻ.
   3. **Tặng code giảm giá:** luôn kèm code `THANKYOU` giảm 15% cho lần mua tiếp. Ví dụ: "As a small thank-you, use code THANKYOU at checkout for 15% off your next order."
   Mục tiêu: khách đọc xong thấy được trân trọng, muốn quay lại — không phải bị "ack and close".

@@ -1,0 +1,5 @@
+# TUYỆT ĐỐI không commit secret
+.claude.json
+.env
+*.token
+*.secret

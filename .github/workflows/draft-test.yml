@@ -1,0 +1,40 @@
+name: CS Ticket Draft — Test (DRY-RUN)
+
+# Bài test nhỏ: chạy tay, đọc 1 ticket Zendesk qua MCP, in draft ra log.
+# KHÔNG ghi gì lên Zendesk (chỉ cho phép tool đọc).
+on:
+  workflow_dispatch:
+    inputs:
+      ticket_id:
+        description: "Zendesk ticket ID để draft thử (DRY-RUN, không ghi gì)"
+        required: true
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Draft ticket (DRY-RUN, read-only)
+        env:
+          # Auth bằng subscription (KHÔNG dùng API key). Lấy từ `claude setup-token`.
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          # Credential Zendesk — inject vào MCP qua ${ENV_VAR}, không nằm trong file.
+          ZENDESK_SUBDOMAIN: ${{ secrets.ZENDESK_SUBDOMAIN }}
+          ZENDESK_EMAIL: ${{ secrets.ZENDESK_EMAIL }}
+          ZENDESK_API_TOKEN: ${{ secrets.ZENDESK_API_TOKEN }}
+          TICKET_ID: ${{ github.event.inputs.ticket_id }}
+        run: |
+          claude -p "DRY-RUN. Dùng MCP zendesk: gọi get_ticket đọc ticket #${TICKET_ID}, và search ticket liên quan của cùng requester. Phân tích ý định chính của khách (1-2 câu), rồi IN RA: (1) một draft trả lời ngắn bằng tiếng Anh đúng tone CS, (2) một dòng tóm tắt tiếng Việt 'Loại ticket + hướng xử lý'. TUYỆT ĐỐI KHÔNG ghi/sửa/comment gì lên Zendesk — chỉ đọc và in ra." \
+            --mcp-config mcp.zendesk.json \
+            --allowedTools "mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets" \
+            --output-format text

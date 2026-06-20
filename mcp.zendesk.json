@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "zendesk": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@sshadows/zendesk-mcp-server"],
+      "env": {
+        "ZENDESK_SUBDOMAIN": "${ZENDESK_SUBDOMAIN}",
+        "ZENDESK_EMAIL": "${ZENDESK_EMAIL}",
+        "ZENDESK_API_TOKEN": "${ZENDESK_API_TOKEN}"
+      }
+    }
+  }
+}

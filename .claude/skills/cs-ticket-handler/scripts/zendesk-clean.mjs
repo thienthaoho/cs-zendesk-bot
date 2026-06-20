@@ -17,6 +17,7 @@
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 // ---------- 1. Đọc credentials ----------
 function findZendeskCreds(obj) {
@@ -41,6 +42,7 @@ function loadCreds() {
 const MARKETING_START = [
   /^Thank you letter from CEO/i,
   /^Thank you for choosing Flagwix/i,
+  /^Thank you for your order$/i,
   /^Best items for the season/i,
   /^Looking Ahead\?/i,
   /^Keep your space seasonally inspired/i,
@@ -53,16 +55,22 @@ const MARKETING_START = [
   /^TRACK YOUR ORDER/i,
   /^OUR SHIPPING POLICIES/i,
   /^I.m Ben, the founder/i,
+  /^Shop now$/i,
 ];
-const ORDER_END = [
-  /^OUR SHIPPING POLICIES/i,
-  /^With America.s 250th/i,
-  /^Best items for the season/i,
-  /^Looking Ahead\?/i,
-  /^Let.s Mark It Your Way/i,
-  /^This email was sent to/i,
-  /^CONTACT US/i,
-  /^TRACK YOUR ORDER/i,
+// Marker "quay lại GIỮ" — gặp dòng này thì thoát khỏi đoạn nhiễu (vì sau đó là
+// nội dung khách/agent hoặc Order Summary cần giữ). Nhờ vậy text khách nằm SAU
+// khối marketing (kiểu bottom-post) vẫn KHÔNG bị mất.
+const RESUME = [
+  /^On .+wrote:\s*$/i,         // header quote email tiếp theo
+  /^-----Original Message-----/i,
+  /^From:\s/i,                  // header Outlook
+  /^Order Summary\s*$/i,        // bắt đầu Order Summary (giữ)
+  /Order:\s*FLWSP/i,
+];
+// Marker ĐÓNG BIÊN khối nhiễu — footer Flagwix luôn kết thúc bằng "Privacy policy".
+// Drop chính dòng này rồi GIỮ lại từ dòng sau → text khách nằm dưới footer không mất.
+const NOISE_END = [
+  /Privacy policy/i,
 ];
 
 function clean(body) {
@@ -76,32 +84,20 @@ function clean(body) {
   // wrapper form-builder
   t = t.replace(/Hi Mr,\s*\n+\s*Someone just submitted a response to your form\.\s*\n+\s*Please find the details below:\s*/i, '');
 
+  // Xóa TỪNG ĐOẠN nhiễu, GIỮ mọi dòng còn lại (kể cả text khách ở bất kỳ vị trí nào).
+  // State machine: gặp NOISE_START -> ngừng giữ; gặp RESUME -> giữ lại.
   const lines = t.split('\n');
-
-  // (a) phần hội thoại = trước marketing marker đầu tiên
-  let convEnd = lines.length;
-  for (let i = 0; i < lines.length; i++) {
-    if (MARKETING_START.some(r => r.test(lines[i].trim()))) { convEnd = i; break; }
-  }
-  const conv = lines.slice(0, convEnd);
-
-  // (b) Order Summary (nếu có) = từ "Order Summary"/"Order: FLWSP" đến footer marker
-  let osStart = -1;
-  for (let i = 0; i < lines.length; i++) {
-    if (/^Order Summary/i.test(lines[i].trim()) || /Order:\s*FLWSP/i.test(lines[i].trim())) { osStart = i; break; }
-  }
-  let orderBlock = [];
-  if (osStart !== -1) {
-    let osEnd = lines.length;
-    for (let i = osStart + 1; i < lines.length; i++) {
-      if (ORDER_END.some(r => r.test(lines[i].trim()))) { osEnd = i; break; }
-    }
-    orderBlock = lines.slice(osStart, osEnd).filter(l => !/Shop now/i.test(l));
+  const out = [];
+  let keep = true;
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (RESUME.some(r => r.test(line))) keep = true;       // ưu tiên RESUME trước
+    if (keep && MARKETING_START.some(r => r.test(line))) { keep = false; continue; }
+    if (!keep && NOISE_END.some(r => r.test(line))) { keep = true; continue; } // đóng biên: drop dòng này, giữ từ dòng sau
+    if (keep) out.push(raw);
   }
 
-  let res = conv.join('\n');
-  if (orderBlock.length) res += '\n\n' + orderBlock.join('\n');
-  return res.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n').trim();
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n').trim();
 }
 
 // ---------- 3. Fetch ----------
@@ -115,7 +111,10 @@ async function fetchComments(creds, ticketId) {
 }
 
 // ---------- 4. Main ----------
-(async () => {
+export { clean };
+
+const isDirectRun = import.meta.url === pathToFileURL(process.argv[1] || '').href;
+if (isDirectRun) await (async () => {
   const args = process.argv.slice(2);
   const ticketId = args.find(a => /^\d+$/.test(a));
   const asJson = args.includes('--json');
@@ -138,6 +137,14 @@ async function fetchComments(creds, ticketId) {
     };
   });
 
+  // SAFEGUARD: cảnh báo nếu cắt mạnh bất thường (>90%) mà phần còn lại quá ngắn
+  // → có thể đã nuốt mất chữ khách. Model nên chạy lại với --raw để xác minh.
+  for (const c of out) {
+    if (!raw && c.orig_len > 1500 && c.clean_len < 150) {
+      c.warn = `⚠ Comment ${c.id}: cắt từ ${c.orig_len}→${c.clean_len} ký tự (còn rất ngắn). Có thể sót nội dung khách — kiểm tra lại bằng: node zendesk-clean.mjs ${ticketId} --raw`;
+    }
+  }
+
   if (asJson) { console.log(JSON.stringify(out, null, 2)); return; }
 
   let totalOrig = 0, totalClean = 0;
@@ -145,6 +152,7 @@ async function fetchComments(creds, ticketId) {
   console.log(`# Ticket ${ticketId} — ${out.length} comment | gốc ${totalOrig} → sạch ${totalClean} ký tự (giảm ${Math.round((1 - totalClean / Math.max(totalOrig,1)) * 100)}%)`);
   for (const c of out) {
     console.log(`\n----- [${c.kind}] ${c.created_at} via ${c.channel} -----`);
+    if (c.warn) console.log(c.warn);
     if (c.attachments.length) console.log(`(đính kèm: ${c.attachments.join(', ')} — HUMAN tự mở, skill KHÔNG tải)`);
     console.log(c.text);
   }

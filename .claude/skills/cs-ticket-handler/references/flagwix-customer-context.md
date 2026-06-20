@@ -5,6 +5,18 @@
 
 ---
 
+## NGUYÊN TẮC GỐC — khách mua Ý NGHĨA, không mua sản phẩm
+
+Phụ nữ Mỹ 35+ (và tệp khách Flagwix nói chung) mua cờ cá nhân hóa vì **một cảm xúc cụ thể**, không vì món đồ:
+- Cờ tưởng niệm (memorial, "in loving memory", in tên người đã mất)
+- Kỷ niệm gia đình / cựu chiến binh
+- Trang trí nhà/sân mang bản sắc cá nhân (curb appeal, đức tin, mùa)
+- Quà tặng dịp đặc biệt (4th of July, Father's Day, housewarming…)
+
+→ Một lá cờ lỗi/muộn/sai với họ không phải "một sản phẩm hỏng", mà là **một ý nghĩa bị tổn thương**. Mọi reply phải xử lý cái ý nghĩa đó trước, cái sản phẩm sau. 8 persona dưới đây chỉ là các biến thể của nguyên tắc này — chọn persona để biết *ý nghĩa nào* đang bị đe dọa và tone nào chạm đúng.
+
+---
+
 ## BRAND USPs — chèn vào reply khi liên quan
 
 | USP | Cách dùng trong CS |
@@ -80,14 +92,12 @@
 **Emotional state khi mua:** Đang đau buồn, cờ là cách ghi nhớ/tưởng niệm người thân — **emotionally highest-stakes persona**
 **Trigger mua:** Sau tang lễ, gần ngày giỗ, ngày lễ đầu tiên thiếu người thân (Christmas, Birthday)
 
-**CS tone — ĐẶC BIỆT QUAN TRỌNG:**
-- **Thừa nhận cảm xúc TRƯỚC TIÊN** — trước giải pháp, trước tracking, trước mọi thứ
-- Không vào "here's your tracking" ngay — dành 2–3 câu acknowledge ý nghĩa
-- Tone chậm, nhẹ, chân thành — tuyệt đối không "Great news!" hay năng động
-- Nếu sản phẩm lỗi/sai/muộn: **ngay lập tức resend** (không debate), set `cs-need-approval` nếu cần duyệt
-- Personalized order (có in tên người đã mất): nếu sai tên → escalate Team Lead NGAY, không tự quyết
+**Cách viết tone (đầy đủ): xem [`voice-persona.md`](voice-persona.md) §Memorial / Emotional heavy** — đây là nguồn duy nhất cho tone memorial (acknowledge cảm xúc trước, không "Great news!", câu mở mẫu). Đừng lặp lại quy tắc viết ở đây.
 
-**Câu mở mẫu:** "I can see how much this order means to you, and I'm truly sorry for what you're going through. I want to make sure this reaches you exactly as it should, and I'll personally take care of this."
+**Rule hành động đặc thù persona (policy, không phải tone):**
+- Đây là **persona emotionally highest-stakes** — sai sót ở đây tốn niềm tin nhất.
+- Sản phẩm lỗi/sai/muộn → **resend ngay** (không debate), set `cs-need-approval` nếu cần duyệt.
+- Personalized in tên người đã mất, nếu **sai tên** → escalate Team Lead NGAY, không tự quyết.
 
 ---
 
@@ -202,6 +212,27 @@ Dùng để nhận diện khi nào ticket nhạy cảm về deadline và tone.
 | Đơn nhiều items (AOV cao) | Garden Gina, Holiday Helen, Patriot Pete | Check toàn bộ line items; không chỉ xử lý 1 cái |
 | Đơn là gift, không kịp | Gift Giver, Patriot Pete | Hỏi occasion; không kịp → offer rõ ràng (refund, expedite), không vague |
 | Chargeback sau memorial order | Grieving Grace (nếu unhappy) | cs-need-approval; holding reply; human verify và respond thực chất |
+
+---
+
+## MULTI-PERSONA PRIORITY RULE
+
+Khi 1 khách khớp nhiều persona, áp dụng theo thứ tự ưu tiên sau (persona có số nhỏ hơn thắng):
+
+| Ưu tiên | Persona | Lý do |
+|---|---|---|
+| 1 | 🕊️ Grieving Grace | Emotional stakes cao nhất — sai tone ở đây gây tổn thương thật |
+| 2 | 🎁 Gift Giver Gary (kết hợp Grieving Grace) | Memorial gift = apply Grieving Grace hoàn toàn |
+| 3 | 🇺🇸 Anniversary America ⏳ 2026 | Deadline cứng + milestone một lần trong đời |
+| 4 | 🇺🇸 Patriot Pete | Deadline dịp lễ, honor context |
+| 5 | ✝️ Faith-Driven Faye | Tôn trọng đức tin trước |
+| 6 | 🎁 Gift Giver Gary (không memorial) | Deadline gift quan trọng nhưng không có emotional heavy |
+| 7 | 🎃 Holiday Helen / 🐾 Dog Mom Debbie / 🌸 Garden Gina | Xử lý nhanh, friendly |
+
+**Ví dụ áp dụng:**
+- Khách mua cờ memorial để tặng cha ngày Father's Day → Grieving Grace (1) thắng Gift Giver (6). Acknowledge mất mát trước tiên, KHÔNG thêm "Happy Father's Day".
+- Khách Patriot Pete đặt cờ US flag cho 4th July nhưng là quà cho vợ → Patriot Pete (4) + Gift Giver (6) → dùng tone Patriot Pete (honor/deadline), thêm deadline awareness của Gift Giver.
+- Khi không rõ → chọn persona có emotional stakes cao hơn để an toàn.
 
 ---
 

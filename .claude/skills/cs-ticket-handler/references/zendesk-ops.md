@@ -33,8 +33,10 @@ node "C:/Users/Admin/.claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs"
 node ...zendesk-clean.mjs <ticket_id> --json    # output JSON nếu cần parse máy
 node ...zendesk-clean.mjs <ticket_id> --raw     # in body gốc (debug)
 ```
-- Script tự đọc creds từ `~/.claude.json` (ZENDESK_SUBDOMAIN/EMAIL/API_TOKEN), fetch `tickets/<id>/comments.json`, **cắt nhiễu**: marketing footer ("Best items", "Shop now"), thư CEO, URL tracking dài, ký tự ẩn padding, unsubscribe/privacy, wrapper form-builder. **Giữ:** phần khách viết, quote chain ngắn, và Order Summary (order# `FLWSP...`, sản phẩm, variant, giá, địa chỉ billing/shipping).
+- Script tự đọc creds từ `~/.claude.json` (ZENDESK_SUBDOMAIN/EMAIL/API_TOKEN), fetch `tickets/<id>/comments.json`. **Cơ chế: xóa TỪNG ĐOẠN nhiễu (state machine NOISE_START → NOISE_END/RESUME), GIỮ mọi dòng còn lại** — nên text khách ở BẤT KỲ vị trí nào (kể cả bottom-post dưới footer) đều không mất. Xóa: marketing footer ("Best items", "Shop now"), thư CEO, URL tracking dài, ký tự ẩn padding, unsubscribe/privacy, wrapper form-builder. Giữ: toàn bộ chữ khách, quote chain, Order Summary (order# `FLWSP...`, sản phẩm, variant, giá, địa chỉ billing/shipping).
 - Mỗi comment in kèm: `[public/internal-note]`, thời gian, channel, **tên file đính kèm** (chỉ TÊN — KHÔNG tải, để HUMAN tự mở).
+- **Safeguard:** comment gốc >1500 ký tự mà sạch <150 → in dòng `⚠ ...cắt... còn rất ngắn`. Gặp cảnh báo này → chạy lại `--raw` để xác minh không sót chữ khách trước khi draft.
+- Importable: `import { clean } from '.../zendesk-clean.mjs'` (chỉ chạy CLI khi gọi trực tiếp) — để test/tái dùng.
 - Kết quả thực đo: ticket 548807 18,608 → 3,247 ký tự (−83%); ticket ngắn (548960) giảm ít là bình thường.
 - ⚠️ Hạn chế đã biết: Order Summary có thể lặp giữa các comment nếu khách quote email xác nhận nhiều lần — đọc 1 lần là đủ, bỏ qua bản lặp.
 - Fallback nếu script lỗi (Node/creds/API down): dùng MCP `get_ticket_comments` rồi tự bỏ phần marketing khi đọc.

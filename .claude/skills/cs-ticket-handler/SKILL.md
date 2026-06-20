@@ -80,11 +80,14 @@ Mục tiêu: tự xử lý hàng loạt ticket mới/đang mở mà KHÔNG cần
 ```bash
 node "C:/Users/Admin/.claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id>
 ```
-Script tự fetch comment thread qua Zendesk API, cắt marketing/footer/URL/ký tự ẩn, **giữ phần khách viết + Order Summary** (order#, sản phẩm, địa chỉ ship), liệt kê tên file đính kèm (KHÔNG tải). Dùng output này thay cho `get_ticket_comments` raw.
+Script **chỉ xóa nhiễu** (marketing/footer/URL/ký tự ẩn/CEO letter), **GIỮ 100% chữ khách viết** ở mọi vị trí (kể cả khi khách viết dưới khối marketing) + Order Summary (order#, sản phẩm, địa chỉ ship), liệt kê tên file đính kèm (KHÔNG tải). Dùng output này thay cho `get_ticket_comments` raw.
 - Vẫn dùng `get_ticket` (không `include_comments`) để lấy **metadata**: tags hiện có, brand, status, requester, custom fields.
+- ⚠️ Nếu output có dòng cảnh báo `⚠ Comment ... cắt ... còn rất ngắn` → chạy lại `node ...zendesk-clean.mjs <id> --raw` để xác minh không sót chữ khách trước khi draft.
 - Nếu script lỗi (creds/Node/API) → fallback `get_ticket_comments` rồi tự bỏ qua phần marketing khi đọc.
 
-Đọc: subject, toàn bộ hội thoại (đã làm sạch), email khách, brand/kênh, kênh đến (email/chat), ngôn ngữ. Xác định **ý định chính** của khách (1–2 câu).
+Đọc: subject, toàn bộ hội thoại (đã làm sạch), email khách, brand/kênh, kênh đến (email/chat), ngôn ngữ. Xác định **ý định sơ bộ** của khách (1–2 câu).
+
+> ⚠️ Ý định ở đây chỉ là **SƠ BỘ** — một ticket lẻ không bao giờ là toàn bộ câu chuyện. **Chốt lại ý định thật sau Bước 2 (Context)**, vì lịch sử ticket/đơn có thể đổi hoàn toàn cách hiểu (vd ca #548708: ticket lẻ không lộ ra đây là quà cần trước tháng 7).
 
 **Tên khách:** luôn lấy từ **form field First Name** (hoặc Zendesk user profile), KHÔNG dùng nickname/sign-off cuối message (vd: "Thanks Tony" ≠ tên). Convert sang Title case nếu ALL CAPS.
 

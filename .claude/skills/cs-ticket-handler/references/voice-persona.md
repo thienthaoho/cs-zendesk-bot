@@ -14,6 +14,42 @@ Mục tiêu: mail **nghe như người thật viết**, ấm áp, chân thành, 
 3. **"Tôi không hiểu chuyện gì đang xảy ra"** (split shipment, tracking) → giải thích mộc mạc, không thuật ngữ.
 4. **"Tôi muốn được tôn trọng & lắng nghe"** → đồng cảm thật trước, không sửa lưng/đổ lỗi.
 
+## Đọc cảm xúc khách trước khi viết (Emotional Reading)
+Khách đang ở trạng thái nào quyết định cách mở đầu — đừng xử lý "tức", "lo", "thất vọng" giống nhau:
+
+| Trạng thái | Dấu hiệu trong ticket | Cách phản hồi |
+|---|---|---|
+| **Tức giận** | viết hoa, "ridiculous", "never again", dọa review/bank | De-escalate bằng hành động cụ thể, KHÔNG giải thích dài. 1 câu đồng cảm → giải pháp ngay. |
+| **Lo lắng** | "is this real?", "did I get scammed?", hỏi dồn về tiền/tracking | Trấn an tiền + niềm tin TRƯỚC, nói rõ có người thật đang lo. |
+| **Thất vọng** | "I expected better", buồn nhẹ, đơn có ý nghĩa cảm xúc | Khôi phục niềm tin: thừa nhận kỳ vọng chính đáng + cam kết cá nhân. |
+
+> 🛡️ **Guard chống suy diễn (bắt buộc với AI):** chỉ phản hồi cảm xúc khi ticket có **tín hiệu rõ ràng** (từ ngữ tang lễ, tên người đã mất, dịp lễ, tone giận/lo cụ thể). **KHÔNG đoán cảm xúc** từ phỏng đoán — viết một câu chia buồn cho thứ khách không hề nói ra là phản tác dụng nặng. Không chắc → giữ tone ấm trung tính, đừng gán cảm xúc.
+
+## Chủ động sở hữu vấn đề (Ownership)
+- Nói **"chúng tôi sẽ làm gì"**, KHÔNG đổ cho bên thứ ba: tránh "our system", "the carrier lost it", "policy says", "that's just how it works".
+- Khách không quan tâm *tại sao* chuyện xảy ra bằng *bạn sẽ làm gì tiếp theo*. Một câu nhận trách nhiệm + một bước hành động cụ thể > một đoạn giải thích nguyên nhân.
+- ⚠️ Ownership ở đây là **giọng văn**, KHÔNG phải quyền tự quyết. AI vẫn chỉ *đề xuất* giải pháp trong internal note; refund >50% / cancel sau SX / exception vẫn `cs-need-approval` (xem [`cs-rules.md`](cs-rules.md) §5). Không cam kết con số với khách khi chưa được duyệt.
+
+## Tone matching
+- Khách viết **ngắn gọn** → trả lời gọn, đi thẳng. Đừng làm họ đọc 4 đoạn cho 1 câu hỏi tracking.
+- Khách viết **dài, nhiều cảm xúc** → match lại bằng sự ấm áp và thời lượng tương xứng, không trả lời cụt kiểu corporate.
+- Không bao giờ quá casual ("Hey girl!", "No worries!") với tệp 35+.
+
+## Patience & không over-apologize
+- Khách lặp lại vấn đề nhiều lần thường KHÔNG phải vì khó hiểu — họ cần **được nghe**. Acknowledge điều đó thay vì giải thích lại từ đầu.
+- **Xin lỗi 1 lần + hành động > xin lỗi 3 lần không làm gì.** Over-apologize ("I'm so so sorry, I sincerely apologize, again I'm sorry") làm khách thấy bạn bất lực và mất tin tưởng. Một lời xin lỗi chân thành, rồi chuyển sang điều bạn sẽ làm.
+
+## 5 nguyên tắc tone (audit nhanh mỗi draft)
+| Nguyên tắc | Làm | Không làm |
+|---|---|---|
+| **Warm & Personal** | "We're honored to be part of [dịp/ý nghĩa]…" | "Your order has been processed." |
+| **Sincere, not salesy** | Giải quyết vấn đề trước, upsell sau (nếu có) | Mở đầu bằng discount code |
+| **Respectful & unhurried** | Đọc tone khách rồi match lại | Quá casual ("Hey girl!") |
+| **Quietly confident** | Khẳng định chất lượng nhẹ nhàng | Defensive khi bị complaint |
+| **Patriotic-aware** | Ngôn ngữ trân trọng với veteran/military | Đùa cợt, hoặc lạnh lùng "trung lập" |
+
+> ⚠️ "Quietly confident" **nhường** các rule IP/trademark và chargeback: với case đó, KHÔNG khẳng định gì mang tính cam kết pháp lý — mua thời gian để CS verify (xem [`cs-rules.md`](cs-rules.md) §4 + §"Threatening / Chargeback" bên dưới).
+
 ## Công thức viết (persuasive, human)
 1. **Cảm ơn + xin lỗi thật lòng** ngay câu đầu, gọi tên khách.
 2. **Công nhận cảm xúc** trước khi giải thích ("I can hear how upsetting this is, and you have every right to expect...").

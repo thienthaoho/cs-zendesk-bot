@@ -198,8 +198,8 @@ Kiểm tra: persona là Holiday Helen / Anniversary America / Gift Giver Gary, H
 Nếu có → **ghi rõ "HOLIDAY DEADLINE AT RISK" trong PHẦN 1** và khi draft (Bước 4) bắt buộc:
 - Thừa nhận ý nghĩa dịp lễ / món quà (không né, không nói chung chung "we're sorry for the inconvenience")
 - Tìm lý do cụ thể, có thật để khách tin đơn đang đến kịp: tracking đang ở đâu, còn bao nhiêu ngày, tỉ lệ giao trước [ngày lễ] là bao nhiêu
-- Nếu tracking cho thấy còn kịp → tone tự tin, nhẹ nhàng cam kết + gợi ý check lại trước lễ
-- Nếu không chắc kịp → thành thật + đề xuất plan B rõ ràng (resend expedited / partial refund / giải pháp khác) — KHÔNG để khách tự đoán
+- Nếu tracking cho thấy còn kịp có ETA dự kiến giao hàng rõ ràng trên tracking status → tone tự tin, nhẹ nhàng cam kết + gợi ý check lại trước lễ
+- Nếu không chắc kịp chưa có ETA trên tracking status → thành thật + đề xuất plan B rõ ràng (resend expedited / partial refund / giải pháp khác) — KHÔNG để khách tự đoán
 - Mục tiêu: khách rời ticket với cảm giác "họ hiểu tôi, tôi biết chuyện gì đang xảy ra, tôi có thể chờ vì có lý do"
 
 ### Bước 4 — Cổng quyết định

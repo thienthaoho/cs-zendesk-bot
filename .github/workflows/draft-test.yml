@@ -1,18 +1,20 @@
 name: CS Ticket Draft — Test (DRY-RUN)
 
-# Chạy tay để test: đọc 1 ticket Zendesk qua MCP + cs-ticket-handler skill,
-# in draft ra log. KHÔNG ghi gì lên Zendesk (chỉ cấp tool đọc).
+# Chạy tay để test: draft ticket Zendesk + in ra log. KHÔNG ghi gì lên Zendesk (chỉ cấp tool đọc).
+# - Có ticket_id  → draft đúng ticket đó.
+# - Bỏ trống      → SWEEP: quét tất cả ticket status:new, draft hết, không ghi.
 on:
   workflow_dispatch:
     inputs:
       ticket_id:
-        description: "Zendesk ticket ID để draft thử (DRY-RUN, không ghi gì)"
-        required: true
+        description: "Ticket ID cụ thể (DRY-RUN). Bỏ trống = quét tất cả ticket New."
+        required: false
+        default: ""
 
 jobs:
   draft:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -34,8 +36,27 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           TICKET_ID: ${{ github.event.inputs.ticket_id }}
         run: |
-          claude -p "dry-run: xử lý ticket Zendesk #${TICKET_ID}" \
+          if [ -n "$TICKET_ID" ]; then
+            PROMPT="dry-run: xử lý ticket Zendesk #${TICKET_ID}. IN ĐẦY ĐỦ nội dung draft (cả Phần 1 nội bộ + Phần 2 gửi khách) cho từng ticket ra output, đừng chỉ in bảng tóm tắt."
+          else
+            PROMPT="dry-run: lấy 1 ticket status:new MỚI NHẤT, xử lý INLINE (KHÔNG mở sub-agent), đừng ghi gì lên Zendesk. IN ĐẦY ĐỦ nội dung draft (Phần 1 nội bộ + Phần 2 gửi khách) + tag/priority đề xuất ra output."
+          fi
+          claude -p "$PROMPT" \
+            --model claude-sonnet-4-6 \
             --mcp-config mcp.json \
-            --allowedTools "mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__get_ticket_comments,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-orders,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
-            --output-format text \
-            --permission-mode dontAsk
+            --allowedTools "Bash,Read,Skill,Task,mcp__zendesk__get_ticket,mcp__zendesk__search,mcp__zendesk__list_tickets,mcp__zendesk__get_ticket_comments,mcp__shopify__get-customers,mcp__shopify__get-customer-orders,mcp__shopify__get-order-by-id,mcp__shopify__get-orders,mcp__shopify__get-products,mcp__shopify__get-product-by-id" \
+            --output-format json \
+            --permission-mode dontAsk > /tmp/result.json
+
+          echo "========== DRAFT OUTPUT =========="
+          jq -r '.result // .' /tmp/result.json
+          echo ""
+          echo "========== TOKEN USAGE (token thuc te cho 1 ticket) =========="
+          jq '{
+            input_tokens: .usage.input_tokens,
+            output_tokens: .usage.output_tokens,
+            cache_read_input_tokens: .usage.cache_read_input_tokens,
+            cache_creation_input_tokens: .usage.cache_creation_input_tokens,
+            total_cost_usd: .total_cost_usd,
+            duration_ms: .duration_ms
+          }' /tmp/result.json

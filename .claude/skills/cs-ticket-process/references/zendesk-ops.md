@@ -30,9 +30,9 @@ Các tool lõi đã xác nhận có:
 ### 2a. Nội dung hội thoại — QUA script làm sạch (BẮT BUỘC, tiết kiệm ~80% token)
 ```bash
 # Đường dẫn tương đối từ gốc repo cs-zendesk-bot (GitHub Actions checkout vào gốc repo nên đúng sẵn; local mở Claude trong repo)
-node ".claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id>
-node ".claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id> --json    # output JSON nếu cần parse máy
-node ".claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id> --raw     # in body gốc (debug)
+node ".claude/skills/cs-ticket-process/scripts/zendesk-clean.mjs" <ticket_id>
+node ".claude/skills/cs-ticket-process/scripts/zendesk-clean.mjs" <ticket_id> --json    # output JSON nếu cần parse máy
+node ".claude/skills/cs-ticket-process/scripts/zendesk-clean.mjs" <ticket_id> --raw     # in body gốc (debug)
 ```
 - Script đọc creds: ưu tiên ENV (`ZENDESK_SUBDOMAIN/EMAIL/API_TOKEN` — GitHub Actions set sẵn), local fallback `~/.claude.json`; fetch `tickets/<id>/comments.json`. **Cơ chế: xóa TỪNG ĐOẠN nhiễu (state machine NOISE_START → NOISE_END/RESUME), GIỮ mọi dòng còn lại** — nên text khách ở BẤT KỲ vị trí nào (kể cả bottom-post dưới footer) đều không mất. Xóa: marketing footer ("Best items", "Shop now"), thư CEO, URL tracking dài, ký tự ẩn padding, unsubscribe/privacy, wrapper form-builder. Giữ: toàn bộ chữ khách, quote chain, Order Summary (order# `FLWSP...`, sản phẩm, variant, giá, địa chỉ billing/shipping).
 - Mỗi comment in kèm: `[public/internal-note]`, thời gian, channel, **tên file đính kèm** (chỉ TÊN — KHÔNG tải, để HUMAN tự mở).
@@ -57,6 +57,7 @@ node ".claude/skills/cs-ticket-handler/scripts/zendesk-clean.mjs" <ticket_id> --
 [AI DRAFT - internal note, KHÔNG gửi khách]
 
 ===== PHẦN 1 - NỘI BỘ (không copy cho khách) =====
+Bối cảnh: <2-3 câu kể câu chuyện: khách là ai, đặt gì, vấn đề cốt lõi, vì sao quan trọng với họ, rủi ro/deadline. Người review đọc dòng này là nắm ngay tình huống.>
 Phân loại: <loại> | Ưu tiên: <P?> | Brand: <brand> | Persona: <persona>
 Đơn: #FLW... | Đặt: <ngày> | Fulfillment: <status> | Tracking: <number/url hoặc "chưa có"> | ETA/Delivered: <...>
 Sản phẩm: <tên + variant>
@@ -71,6 +72,8 @@ Còn mở / theo dõi: <vấn đề chưa xong + mốc follow-up; hoặc "không
 <closing word>
 AI ddmmyy
 ```
+> ✂️ **Giữ note GỌN (mức trung gian).** Phần 1 chỉ cần: BỐI CẢNH (2-3 câu) + facts đơn (order/ngày/fulfillment/tracking/sản phẩm) + việc human cần làm + theo dõi. **KHÔNG viết phân tích policy/ETA dài dòng** (bucket/ngày đã do `policy-dates.mjs` tính, chỉ ghi kết luận 1 dòng). Mục tiêu: người review đọc ~15 giây là nắm, không phải đọc cả trang.
+
 > ‼️ Bắt buộc `public=false`. Một public comment sẽ gửi mail thẳng cho khách — vi phạm guardrail.
 > ‼️ **Note phải 100% TEXT THƯỜNG.** Zendesk render markdown → các ký hiệu sau làm chữ phình to/đậm như tiêu đề, TUYỆT ĐỐI KHÔNG dùng trong note:
 > - `---` hoặc `***` (kể cả khi đứng một mình): **một dòng chữ nằm NGAY TRÊN dòng `---` sẽ biến thành heading H2 chữ to** — đây chính là lỗi hay gặp.

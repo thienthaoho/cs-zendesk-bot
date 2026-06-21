@@ -1,6 +1,15 @@
-# Shopify Lookup — qua MCP `shopify` (store flagwix)
+# Shopify Lookup — store flagwix
 
 Dùng để tra **đơn hàng** (khách đã mua) và **hiểu sản phẩm** trước khi trả lời. Chỉ ĐỌC, không sửa đơn/sản phẩm trừ khi được yêu cầu rõ.
+
+> ✅ **CÁCH CHÍNH — chạy script (nhanh + ít token):**
+> ```bash
+> node ".claude/skills/cs-ticket-process/scripts/shopify-order.mjs" --order <FLWSP...>
+> node ".claude/skills/cs-ticket-process/scripts/shopify-order.mjs" --email <email khách>
+> ```
+> Script tự gọi API + lọc đơn active + trả JSON gọn (name, ngày, fulfillment, tracking, line_items, địa chỉ, tuổi đơn). **Dùng output này thay cho việc gọi nhiều tool MCP + đọc JSON thô.** Cần tính hạn refund / lost-in-transit / business-day → chạy thêm `policy-dates.mjs` (xem cs-rules.md).
+>
+> Phần dưới là **tham khảo cách hoạt động + fallback** khi script lỗi (dùng MCP `shopify` tay).
 
 ## Tra khách + đơn hàng
 

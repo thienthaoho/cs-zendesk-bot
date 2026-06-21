@@ -2,6 +2,8 @@
 
 > ✅ **Phạm vi:** Policy Flagwix/Shopify (nguồn: flagwix.com + Brands wiki). Mục nào ghi **[CẦN BỔ SUNG]** thì skill KHÔNG được tự chế — ghi rõ trong internal note và set `cs-need-approval` nếu cần duyệt.
 
+> 🔢 **Phần TÍNH TOÁN (hạn refund còn mấy ngày, cửa sổ sửa 12h, lost-in-transit, ETA, SLA gần dịp lễ) → dùng `scripts/policy-dates.mjs`, đừng nhẩm tay.** File này giữ phần **diễn giải + ngoại lệ + thẩm quyền** (phán đoán). Con số ngưỡng nằm ở khối CONFIG đầu `policy-dates.mjs` — sửa policy thì sửa ở đó cho khớp.
+
 ## 1. Chính sách Cancel / Refund / Resend
 
 **Flagwix refund window (nguồn: flagwix.com/pages/return-refund):**

@@ -14,7 +14,7 @@ on:
 jobs:
   draft:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
           if [ -n "$TICKET_ID" ]; then
             PROMPT="dry-run: xử lý ticket Zendesk #${TICKET_ID}. IN ĐẦY ĐỦ nội dung draft (cả Phần 1 nội bộ + Phần 2 gửi khách) cho từng ticket ra output, đừng chỉ in bảng tóm tắt."
           else
-            PROMPT="dry-run: quét tất cả ticket status:new, đừng ghi gì lên Zendesk. IN ĐẦY ĐỦ nội dung draft (cả Phần 1 nội bộ + Phần 2 gửi khách) cho TỪNG ticket ra output, kèm tag/priority đề xuất."
+            PROMPT="dry-run: lấy 1 ticket status:new MỚI NHẤT, xử lý INLINE (KHÔNG mở sub-agent), đừng ghi gì lên Zendesk. IN ĐẦY ĐỦ nội dung draft (Phần 1 nội bộ + Phần 2 gửi khách) + tag/priority đề xuất ra output."
           fi
           claude -p "$PROMPT" \
             --model claude-sonnet-4-6 \

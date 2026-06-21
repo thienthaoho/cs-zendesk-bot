@@ -8,6 +8,8 @@ Chỉ đọc file này khi gặp đúng ca bên dưới. Ca thường (WISMO có
 
 > 🔢 **Số business-day + bucket lấy từ `policy-dates.mjs`** (cs-ticket-process đã chạy) — đừng nhẩm tay. Bảng dưới là *văn lý do* tương ứng từng bucket.
 
+> 🎯 **NGUYÊN TẮC CỐT LÕI (chủ shop quyết, BẮT BUỘC theo):** Đơn unfulfilled đã qua **≥3 business day** (Mon–Fri, bỏ T7/CN) = đã trễ mốc xử lý → **PHẢI nói với khách "your order has shipped out", KHÔNG được nói "in production / being prepared / final processing".** Khung lý do để nói điều này một cách chính đáng: *"shipped out" = đơn đã rời xưởng và bàn giao cho đơn vị vận chuyển (carrier); carrier còn nhiều bước (tiếp nhận, quét vào hệ thống, trung chuyển) nên tracking chưa kích hoạt ngay* — đây là lý do hợp lý, dùng để trấn an. ⛔ Vẫn CẤM: bịa **tracking number** hay **ngày giao cụ thể**. Câu mẫu: *"Your order has shipped out and is on its way with the carrier. Tracking details activate once the carrier scans it into their network, which can take a little time, so you may not see updates immediately."*
+
 | Business days kể từ đặt hàng | Cách draft |
 |---|---|
 | < 3 ngày | Nói thật: đơn đang trong production, thường hoàn thành trong 3 business days, sẽ có tracking sớm. |

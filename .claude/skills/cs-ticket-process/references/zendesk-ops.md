@@ -72,6 +72,8 @@ Còn mở / theo dõi: <vấn đề chưa xong + mốc follow-up; hoặc "không
 <closing word>
 AI ddmmyy
 ```
+> ✂️ **Giữ note GỌN (mức trung gian).** Phần 1 chỉ cần: BỐI CẢNH (2-3 câu) + facts đơn (order/ngày/fulfillment/tracking/sản phẩm) + việc human cần làm + theo dõi. **KHÔNG viết phân tích policy/ETA dài dòng** (bucket/ngày đã do `policy-dates.mjs` tính, chỉ ghi kết luận 1 dòng). Mục tiêu: người review đọc ~15 giây là nắm, không phải đọc cả trang.
+
 > ‼️ Bắt buộc `public=false`. Một public comment sẽ gửi mail thẳng cho khách — vi phạm guardrail.
 > ‼️ **Note phải 100% TEXT THƯỜNG.** Zendesk render markdown → các ký hiệu sau làm chữ phình to/đậm như tiêu đề, TUYỆT ĐỐI KHÔNG dùng trong note:
 > - `---` hoặc `***` (kể cả khi đứng một mình): **một dòng chữ nằm NGAY TRÊN dòng `---` sẽ biến thành heading H2 chữ to** — đây chính là lỗi hay gặp.

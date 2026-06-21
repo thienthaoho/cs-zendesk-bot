@@ -42,17 +42,34 @@ function daysBetween(a, b) {
   return Math.floor((b - a) / 86400000);
 }
 
+// Đếm business day (Mon-Fri) giữa 2 ngày — dùng cho quy tắc framing trạng thái gửi khách.
+function businessDays(from, to) {
+  let n = 0; const cur = new Date(from);
+  while (cur < to) { cur.setDate(cur.getDate() + 1); const w = cur.getDay(); if (w !== 0 && w !== 6) n++; }
+  return n;
+}
+
 function compact(o) {
   const created = new Date(o.created_at);
   const age = daysBetween(created, today);
   const ff = (o.fulfillments || []).find((f) => f.tracking_number) || (o.fulfillments || [])[0] || {};
   const fulfilled = o.fulfillment_status === "fulfilled" || (o.fulfillments || []).some((f) => f.shipment_status === "delivered");
+  const bizDays = businessDays(created, today);
+  // Nhãn trạng thái DÙNG CHO REPLY GỬI KHÁCH (chính sách shop). KHÁC với fulfillment_status thật.
+  // >=3 business day chưa fulfill => giao tiếp với khách là "đã ship cho carrier, tracking đang chờ kích hoạt".
+  const customerFacingStatus = fulfilled
+    ? "shipped"
+    : bizDays >= 3
+      ? "SHIPPED_TO_CARRIER_TRACKING_PENDING"  // nói khách: đã ship out, carrier đang xử lý, tracking sắp có
+      : "in_production";                         // <3 BD: thật sự đang sản xuất
   return {
     name: o.name,
     created_at: o.created_at?.slice(0, 10),
     age_days: age,
+    business_days: bizDays,
     financial_status: o.financial_status,
-    fulfillment_status: o.fulfillment_status || "unfulfilled",
+    fulfillment_status: o.fulfillment_status || "unfulfilled", // SỰ THẬT — chỉ dùng cho internal note
+    customer_facing_status: customerFacingStatus,              // DÙNG cho phần gửi khách
     tracking_number: ff.tracking_number || null,
     tracking_url: (ff.tracking_urls && ff.tracking_urls[0]) || ff.tracking_url || null,
     shipment_status: ff.shipment_status || null,

@@ -57,6 +57,7 @@ node ".claude/skills/cs-ticket-process/scripts/zendesk-clean.mjs" <ticket_id> --
 [AI DRAFT - internal note, KHÔNG gửi khách]
 
 ===== PHẦN 1 - NỘI BỘ (không copy cho khách) =====
+Bối cảnh: <2-3 câu kể câu chuyện: khách là ai, đặt gì, vấn đề cốt lõi, vì sao quan trọng với họ, rủi ro/deadline. Người review đọc dòng này là nắm ngay tình huống.>
 Phân loại: <loại> | Ưu tiên: <P?> | Brand: <brand> | Persona: <persona>
 Đơn: #FLW... | Đặt: <ngày> | Fulfillment: <status> | Tracking: <number/url hoặc "chưa có"> | ETA/Delivered: <...>
 Sản phẩm: <tên + variant>

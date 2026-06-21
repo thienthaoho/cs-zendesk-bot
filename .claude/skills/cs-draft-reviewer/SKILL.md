@@ -11,8 +11,9 @@ description: "Soi chất lượng NGỮ NGHĨA của draft trả lời khách tr
 
 ## Chấm theo 5 tiêu chí — soi từng cái
 
-**1. Sai nghĩa / bịa data** 🔴 *(lỗi nặng nhất — chưa đạt là loại ngay)*
-- Mọi số liệu trong draft (số đơn, tracking, ngày, ETA, tên sản phẩm/variant) có **khớp 100%** với data đơn thật không? Có con số/khẳng định nào KHÔNG có trong data đầu vào không (= bịa)?
+**1. Bịa SỐ LIỆU CỤ THỂ / vượt quyền** 🔴 *(lỗi nặng nhất — chưa đạt là loại ngay)*
+- Có **số liệu cụ thể** nào KHÔNG khớp data thật không: tracking number, ngày ship/giao **cụ thể**, số tiền refund, tên/variant sản phẩm? Chế mấy cái này → loại ngay.
+- ⚠️ *Lưu ý quan trọng:* framing "đơn đã hoàn tất / đã ship out + lý do hợp lý" cho đơn unfulfilled 3–10 ngày là **theo rule §A — KHÔNG tính là bịa, đừng loại vì lý do này.** Chỉ loại khi nó **kèm số liệu giả** (tracking number / ngày cụ thể bịa).
 - Draft có hứa điều gì vượt policy/quyền mà không đánh dấu "cần duyệt" không?
 
 **2. Sai ngữ cảnh**
